@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://github.com/rjrydell/ddm1/blob/main/ampmodprac.js'], function(APIConstructor, epExtension){
+define(['pipAPI', 'https://github.com/rjrydell/ddm1/ampmodprac.js'], function(APIConstructor, epExtension){
 	var API = new APIConstructor();
 	var global = API.getGlobal();
 	return epExtension(
