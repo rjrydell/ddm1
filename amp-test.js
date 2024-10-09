@@ -77,64 +77,48 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				nameForLogging : 'BF',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
-					{image : 'murder'}, 
-					{image : 'rape'},
-					{image : 'assault'},
-					{image : 'torture'},
-					{image : 'abuse'},
-					{image : 'slaughter'},
-					{image : 'terrorism'},
-					{image : 'massacre'},
-					{image : 'molesting'},
-					{image : 'killing'}
-				]				
+					{image : 'black1i'}, 
+					{image : 'black2i'},
+					{image : 'black3i'},
+					{image : 'black4i'},
+					{image : 'black5i'},
+					
+			]				
 			},
 				{
 				nameForLogging : 'BM',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
-					{image : 'murder'}, 
-					{image : 'rape'},
-					{image : 'assault'},
-					{image : 'torture'},
-					{image : 'abuse'},
-					{image : 'slaughter'},
-					{image : 'terrorism'},
-					{image : 'massacre'},
-					{image : 'molesting'},
-					{image : 'killing'}
+					{image : 'black1'}, 
+					{image : 'black2'},
+					{image : 'black3'},
+					{image : 'black4'},
+					{image : 'black5'},
+					
 				]
 				},
 			{
 				nameForLogging : 'WF',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
-					{image : 'murder'}, 
-					{image : 'rape'},
-					{image : 'assault'},
-					{image : 'torture'},
-					{image : 'abuse'},
-					{image : 'slaughter'},
-					{image : 'terrorism'},
-					{image : 'massacre'},
-					{image : 'molesting'},
-					{image : 'killing'}
+					{image : 'white1i'}, 
+					{image : 'white2i'},
+					{image : 'white3i'},
+					{image : 'white4i'},
+					{image : 'white5i'},
+					
 				]				
 			},
 			{
 				nameForLogging : 'WM',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
-					{image : 'murder'}, 
-					{image : 'rape'},
-					{image : 'assault'},
-					{image : 'torture'},
-					{image : 'abuse'},
-					{image : 'slaughter'},
-					{image : 'terrorism'},
-					{image : 'massacre'},
-					{image : 'molesting'},
-					{image : 'killing'}
+					{image : 'white1'}, 
+					{image : 'white2'},
+					{image : 'white3'},
+					{image : 'white4'},
+					{image : 'white5'},
+					
 				]				
 			},
 			],
