@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://jillianlmeyer.github.io/AMP-TEST/jamp.js'], function(APIConstructor, ampExtension){
+define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstructor, ampExtension){
 
 	var API = new APIConstructor();
 	
@@ -8,11 +8,11 @@ define(['pipAPI', 'https://jillianlmeyer.github.io/AMP-TEST/jamp.js'], function(
 		trialsInBlock : [40, 40, 40, 40, 40, 40], //Number of trials in each block 
 		trialsInExample : 5, //Change to 0 if you don't want an example block
 	
-		sortingLabel1 : 'Morally Wrong', //Response is coded as 0. 
-		sortingLabel2 : 'Neutral',  //Response is coded as 1.
+		sortingLabel1 : 'Female', //Response is coded as 0. 
+		sortingLabel2 : 'Male',  //Response is coded as 1.
 		
-		rightKey : 'm', 
-		leftKey : 'z',
+		rightKey : 'i', 
+		leftKey : 'e',
 
 		targetCat : 'SECOND word', //The name of the targets (used in the instructions)
 
@@ -36,75 +36,107 @@ define(['pipAPI', 'https://jillianlmeyer.github.io/AMP-TEST/jamp.js'], function(
 		//The prime categories.
 		primeCats :  [
 			{
-				nameForFeedback : 'CMTs',  //Will be used in the user feedback 
-				nameForLogging : 'CMTs', //Will be used in the logging
+				nameForFeedback : '+1s',  //Will be used in the user feedback 
+				nameForLogging : '+1s', //Will be used in the logging
 				//An array of all media objects for this category.
 				mediaArray : [
-					{word : 'unfairness'}, 
-					{word : 'injustice'},
-					{word : 'cheating'},
-					{word : 'fraud'},
-					{word : 'lying'}, 
-					{word : 'dishonesty'},
-					{word : 'disloyalty'},
-					{word : 'betrayal'},
-					{word : 'stealing'},
-					{word : 'theft'}
+					{word : '+'}, 
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'}, 
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'}
 				]
 
 			}, 
 			{
-				nameForFeedback : 'NeutralsP',  //Will be used in the user feedback 
-				nameForLogging : 'NeutralsP', //Will be used in the logging
+				nameForFeedback : '+2s',  //Will be used in the user feedback 
+				nameForLogging : '+2s', //Will be used in the logging
 				//An array of all media objects for this category.
 				mediaArray : [
-				    	{word : 'writing'}, 
-					{word : 'farming'},
-					{word : 'painting'},
-					{word : 'baking'},
-					{word : 'poetry'},
-					{word : 'wondering'},
-					{word : 'golf'},
-					{word : 'leisure'},
-					{word : 'modesty'},
-					{word : 'agreement'}
+				    	{word : '+'}, 
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'}, 
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'}
 				]
 			}
 		],
 
 		targetCats :  [
 				{
-				nameForLogging : 'NeutralsT',  //Will be used in the logging
+				nameForLogging : 'BF',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
-					{word : 'travel'}, 
-					{word : 'whistling'},
-					{word : 'industry'},
-					{word : 'reunion'},
-					{word : 'nursing'},
-					{word : 'listening'},
-					{word : 'passage'},
-					{word : 'watching'},
-					{word : 'tennis'},
-					{word : 'exercise'}
+					{image : 'murder'}, 
+					{image : 'rape'},
+					{image : 'assault'},
+					{image : 'torture'},
+					{image : 'abuse'},
+					{image : 'slaughter'},
+					{image : 'terrorism'},
+					{image : 'massacre'},
+					{image : 'molesting'},
+					{image : 'killing'}
 				]				
 			},
 				{
-				nameForLogging : 'Morally Wrong',  //Will be used in the logging
+				nameForLogging : 'BM',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
-					{word : 'murder'}, 
-					{word : 'rape'},
-					{word : 'assault'},
-					{word : 'torture'},
-					{word : 'abuse'},
-					{word : 'slaughter'},
-					{word : 'terrorism'},
-					{word : 'massacre'},
-					{word : 'molesting'},
-					{word : 'killing'}
+					{image : 'murder'}, 
+					{image : 'rape'},
+					{image : 'assault'},
+					{image : 'torture'},
+					{image : 'abuse'},
+					{image : 'slaughter'},
+					{image : 'terrorism'},
+					{image : 'massacre'},
+					{image : 'molesting'},
+					{image : 'killing'}
 				]
-				}
+				},
+			{
+				nameForLogging : 'WF',  //Will be used in the logging
+				//An array of all media objects for this category. The default is pic1-pic200.jpg
+				mediaArray : [
+					{image : 'murder'}, 
+					{image : 'rape'},
+					{image : 'assault'},
+					{image : 'torture'},
+					{image : 'abuse'},
+					{image : 'slaughter'},
+					{image : 'terrorism'},
+					{image : 'massacre'},
+					{image : 'molesting'},
+					{image : 'killing'}
+				]				
+			},
+			{
+				nameForLogging : 'WM',  //Will be used in the logging
+				//An array of all media objects for this category. The default is pic1-pic200.jpg
+				mediaArray : [
+					{image : 'murder'}, 
+					{image : 'rape'},
+					{image : 'assault'},
+					{image : 'torture'},
+					{image : 'abuse'},
+					{image : 'slaughter'},
+					{image : 'terrorism'},
+					{image : 'massacre'},
+					{image : 'molesting'},
+					{image : 'killing'}
+				]				
+			},
 			],
 
 		targetStimulusCSS : {color:'#0000FF','font-size':'2.3em'},
