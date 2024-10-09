@@ -131,7 +131,7 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
 			leftKey : 'e', 
 			
 			base_url : {//Where are your images at?
-				image : 'https://baranan.github.io/minno-tasks/images/ampImages'
+				image : 'https://rjrydell.github.io/ddmpic'
 			}, 
 
 			trialsInBlock : [40, 40, 40], //Number of trials in each block 
