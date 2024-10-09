@@ -194,7 +194,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		fixationDuration : 200, //It means that by default we do not use fixation.
 		primeDuration : 200, 
 		postPrimeDuration : 75, //Duration of blank screen between prime and target.
-		targetDuration : 200, //Duration of target presentation.
+		targetDuration : 500, //Duration of target presentation.
 		ITI : 250, //Duration between trials.
 
 		//  ********* END REAL TRIALS **********//
@@ -224,11 +224,11 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 			nameForLogging : 'examplePrime', //Will be used in the logging
 			//An array of all media objects for this category.
 			mediaArray : [
-				{word : 'painting'}, 
-				{word : 'baking'}, 
-				{word : 'poetry'},
-				{word: 'cruelty'},
-				{word: 'genocide'}
+				{word : '+'}, 
+				{word : '+'}, 
+				{word : '+'},
+				{word: '+'},
+				{word: '+'}
 			]
 		},
 
@@ -236,11 +236,11 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 			nameForLogging : 'exampleTarget', //Will be used in the logging
 			//An array of all media objects for this category.
 			mediaArray : [
-				{word : 'painting'}, 
-				{word : 'baking'},
-				{word : 'poetry'},
-				{word: 'cruelty'},
-				{word: 'racism'}
+				{image : 'painting'}, 
+				{image : 'baking'},
+				{image : 'poetry'},
+				{image: 'cruelty'},
+				{image: 'racism'}
 			]
 		},
 
@@ -248,7 +248,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		exampleBlock_fixationDuration : 200, 
 		exampleBlock_primeDuration : 200, 
 		exampleBlock_postPrimeDuration : 75, 
-		exampleBlock_targetDuration : 200,
+		exampleBlock_targetDuration : 500,
 
 		// ****** END EXAMPLE ROUND ********
 		
