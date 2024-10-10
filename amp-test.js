@@ -14,6 +14,10 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		rightKey : 'i', 
 		leftKey : 'e',
 
+		base_url : {//Where are your images at?
+				image : 'https://rjrydell.github.io/ddm1/images'
+			}, 
+		
 		targetCat : 'SECOND word', //The name of the targets (used in the instructions)
 
 		//The default font color of text in the task (e.g., for key labels).
