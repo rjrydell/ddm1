@@ -77,11 +77,10 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				nameForLogging : 'BF',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
-					{image : 'black1i'}, 
-					{image : 'black2i'},
-					{image : 'black3i'},
-					{image : 'black4i'},
-					{image : 'black5i'},
+					{image : 'king'}, 
+					{image : 'King2'},
+					{image : 'King3'},
+					
 					
 			]				
 			},
@@ -101,12 +100,10 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				nameForLogging : 'WF',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
-					{image : 'white1i'}, 
-					{image : 'white2i'},
-					{image : 'white3i'},
-					{image : 'white4i'},
-					{image : 'white5i'},
-					
+					{image : 'hanks'}, 
+					{image : 'hanks2'},
+					{image : 'hanks3'},
+										
 				]				
 			},
 			{
