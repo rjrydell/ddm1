@@ -49,8 +49,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 					{word : '+'},
 					{word : '+'},
 					{word : '+'},
-					{word : '+'}
-				]
+					{word : '+'}]
 
 			}, 
 			{
@@ -67,8 +66,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 					{word : '+'},
 					{word : '+'},
 					{word : '+'},
-					{word : '+'}
-				]
+					{word : '+'}]
 			}
 		],
 
@@ -79,10 +77,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				mediaArray : [
 					{image : 'king.jpg'}, 
 					{image : 'King2.jpg'},
-					{image : 'King3.jpg'},
-					
-					
-			]				
+					{image : 'King3.jpg'}]				
 			},
 				{
 				nameForLogging : 'BM',  //Will be used in the logging
@@ -90,9 +85,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				mediaArray : [
 					{image : 'bomber.jpg'}, 
 					{image : 'bomber2.jpg'},
-					{image : 'bomber3.jpg'},
-										
-				]
+					{image : 'bomber3.jpg'}]
 				},
 			{
 				nameForLogging : 'WF',  //Will be used in the logging
@@ -100,9 +93,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				mediaArray : [
 					{image : 'hanks.jpg'}, 
 					{image : 'hanks2.jpg'},
-					{image : 'hanks3.jpg'},
-										
-				]				
+					{image : 'hanks3.jpg'}]				
 			},
 			{
 				nameForLogging : 'WM',  //Will be used in the logging
@@ -110,9 +101,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				mediaArray : [
 					{image : 'manson.jpg'}, 
 					{image : 'manson2.jpg'},
-					{image : 'manson3.jpg'},
-										
-				]				
+					{image : 'manson3.jpg'}]				
 			},
 			],
 
