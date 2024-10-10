@@ -36,8 +36,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		//The prime categories.
 		primeCats :  [
 			{
-				nameForFeedback : '+1s',  //Will be used in the user feedback 
-				nameForLogging : '+1s', //Will be used in the logging
+				nameForFeedback : 'fix1',  //Will be used in the user feedback 
+				nameForLogging : 'fix1', //Will be used in the logging
 				//An array of all media objects for this category.
 				mediaArray : [
 					{word : '+'}, 
@@ -53,8 +53,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 
 			}, 
 			{
-				nameForFeedback : '+2s',  //Will be used in the user feedback 
-				nameForLogging : '+2s', //Will be used in the logging
+				nameForFeedback : 'fix2',  //Will be used in the user feedback 
+				nameForLogging : 'fix2', //Will be used in the logging
 				//An array of all media objects for this category.
 				mediaArray : [
 				    	{word : '+'}, 
@@ -76,8 +76,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
 					{image : 'king.jpg'}, 
-					{image : 'King2.jpg'},
-					{image : 'King3.jpg'}]				
+					{image : 'king2.jpg'},
+					{image : 'king3.jpg'}]				
 			},
 				{
 				nameForLogging : 'BM',  //Will be used in the logging
@@ -157,7 +157,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 
 		
 		//Duration parameters.
-		fixationDuration : 200, //It means that by default we do not use fixation.
+		fixationDuration : -1, //It means that by default we do not use fixation.
 		primeDuration : 200, 
 		postPrimeDuration : 75, //Duration of blank screen between prime and target.
 		targetDuration : 500, //Duration of target presentation.
