@@ -76,8 +76,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
 					{image : 'king.jpg'}, 
-					{image : 'king2.jpg'},
-					{image : 'king3.jpg'}]				
+					{image : 'King2.jpg'},
+					{image : 'King3.jpg'}]				
 			},
 				{
 				nameForLogging : 'BM',  //Will be used in the logging
