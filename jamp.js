@@ -131,7 +131,7 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
 			leftKey : 'e', 
 			
 			base_url : {//Where are your images at?
-				image : 'https://rjrydell.github.io/ddm1'
+				image : 'https://rjrydell.github.io/ddm1/images'
 			}, 
 
 			trialsInBlock : [40, 40, 40], //Number of trials in each block 
