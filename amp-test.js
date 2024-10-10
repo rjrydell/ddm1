@@ -209,7 +209,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				{image : 'king.jpg'}, 
 				{image : 'King2.jpg'},
 				{image : 'King3.jpg'},
-				{image: 'bomber1.jpg'},
+				{image: 'bomber.jpg'},
 				{image: 'bomber2.jpg'}
 			]
 		},
