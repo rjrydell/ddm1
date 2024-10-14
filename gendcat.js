@@ -5,7 +5,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 	
 	return ampExtension({
 
-		trialsInBlock : [40, 40, 40, 40, 40], //Number of trials in each block 
+		trialsInBlock : [50, 50, 50, 50], //Number of trials in each block 
 		trialsInExample : 5, //Change to 0 if you don't want an example block
 	
 		sortingLabel1 : 'Female', //Response is coded as 0. 
@@ -134,10 +134,57 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				nameForLogging : 'BM',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
-					{image : 'bomber.jpg'}, 
-					{image : 'bomber2.jpg'},
-					{image : 'bomber3.jpg'}]
-				},
+					{image : 'BM1.jpg'}, 
+					{image : 'BM2.jpg'},
+					{image : 'BM3.jpg'}, 
+					{image : 'BM4.jpg'},
+					{image : 'BM5.jpg'}, 
+					{image : 'BM6.jpg'},
+					{image : 'BM7.jpg'}, 
+					{image : 'BM8.jpg'},
+					{image : 'BM9.jpg'}, 
+					{image : 'BM10.jpg'},
+					{image : 'BM11.jpg'}, 
+					{image : 'BM12.jpg'},
+					{image : 'BM13.jpg'}, 
+					{image : 'BM14.jpg'},
+					{image : 'BM15.jpg'}, 
+					{image : 'BM16.jpg'},
+					{image : 'BM17.jpg'}, 
+					{image : 'BM18.jpg'},
+					{image : 'BM19.jpg'}, 
+					{image : 'BM20.jpg'},
+					{image : 'BM21.jpg'}, 
+					{image : 'BM22.jpg'},
+					{image : 'BM23.jpg'}, 
+					{image : 'BM24.jpg'},
+					{image : 'BM25.jpg'}, 
+					{image : 'BM26.jpg'},
+					{image : 'BM27.jpg'}, 
+					{image : 'BM28.jpg'},
+					{image : 'BM29.jpg'}, 
+					{image : 'BM30.jpg'},
+					{image : 'BM31.jpg'}, 
+					{image : 'BM32.jpg'},
+					{image : 'BM33.jpg'}, 
+					{image : 'BM34.jpg'},
+					{image : 'BM35.jpg'}, 
+					{image : 'BM36.jpg'},
+					{image : 'BM37.jpg'}, 
+					{image : 'BM38.jpg'},
+					{image : 'BM39.jpg'}, 
+					{image : 'BM40.jpg'},
+					{image : 'BM41.jpg'}, 
+					{image : 'BM42.jpg'},
+					{image : 'BM43.jpg'}, 
+					{image : 'BM44.jpg'},
+					{image : 'BM45.jpg'}, 
+					{image : 'BM46.jpg'},
+					{image : 'BM47.jpg'}, 
+					{image : 'BM48.jpg'},
+					{image : 'BM49.jpg'}, 
+					{image : 'BM50.jpg'}]				
+			},
 			{
 				nameForLogging : 'WF',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
