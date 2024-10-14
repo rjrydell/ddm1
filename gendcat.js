@@ -5,7 +5,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 	
 	return ampExtension({
 
-		trialsInBlock : [40, 40, 40, 40, 40, 40], //Number of trials in each block 
+		trialsInBlock : [40, 40, 40, 40, 40], //Number of trials in each block 
 		trialsInExample : 5, //Change to 0 if you don't want an example block
 	
 		sortingLabel1 : 'Female', //Response is coded as 0. 
@@ -79,9 +79,56 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				nameForLogging : 'BF',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
-					{image : 'king.jpg'}, 
-					{image : 'King2.jpg'},
-					{image : 'King3.jpg'}]				
+					{image : 'BF1.jpg'}, 
+					{image : 'BF2.jpg'},
+					{image : 'BF3.jpg'}, 
+					{image : 'BF4.jpg'},
+					{image : 'BF5.jpg'}, 
+					{image : 'BF6.jpg'},
+					{image : 'BF7.jpg'}, 
+					{image : 'BF8.jpg'},
+					{image : 'BF9.jpg'}, 
+					{image : 'BF10.jpg'},
+					{image : 'BF11.jpg'}, 
+					{image : 'BF12.jpg'},
+					{image : 'BF13.jpg'}, 
+					{image : 'BF14.jpg'},
+					{image : 'BF15.jpg'}, 
+					{image : 'BF16.jpg'},
+					{image : 'BF17.jpg'}, 
+					{image : 'BF18.jpg'},
+					{image : 'BF19.jpg'}, 
+					{image : 'BF20.jpg'},
+					{image : 'BF21.jpg'}, 
+					{image : 'BF22.jpg'},
+					{image : 'BF23.jpg'}, 
+					{image : 'BF24.jpg'},
+					{image : 'BF25.jpg'}, 
+					{image : 'BF26.jpg'},
+					{image : 'BF27.jpg'}, 
+					{image : 'BF28.jpg'},
+					{image : 'BF29.jpg'}, 
+					{image : 'BF30.jpg'},
+					{image : 'BF31.jpg'}, 
+					{image : 'BF32.jpg'},
+					{image : 'BF33.jpg'}, 
+					{image : 'BF34.jpg'},
+					{image : 'BF35.jpg'}, 
+					{image : 'BF36.jpg'},
+					{image : 'BF37.jpg'}, 
+					{image : 'BF38.jpg'},
+					{image : 'BF39.jpg'}, 
+					{image : 'BF40.jpg'},
+					{image : 'BF41.jpg'}, 
+					{image : 'BF42.jpg'},
+					{image : 'BF43.jpg'}, 
+					{image : 'BF44.jpg'},
+					{image : 'BF45.jpg'}, 
+					{image : 'BF46.jpg'},
+					{image : 'BF47.jpg'}, 
+					{image : 'BF48.jpg'},
+					{image : 'BF49.jpg'}, 
+					{image : 'BF50.jpg'}]				
 			},
 				{
 				nameForLogging : 'BM',  //Will be used in the logging
