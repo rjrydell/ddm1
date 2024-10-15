@@ -311,8 +311,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		firstBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial; color:#FFFFFF"><br/>' + 
 			"See how fast it is? Don't worry if you miss some. " + 
 			'Go with your gut feelings.<br/><br/>' + 
-			'Concentrate on each picture and indicate whether it is a leftAttribute with the <b>leftKey</b> key,  ' + 
-			'or indicate whether it is a rightAttribute with the <b>rightKey</b> key.<br/><br/>' + 
+			'Concentrate on each picture and indicate whether it is a leftAttribute person with the <b>leftKey</b> key,  ' + 
+			'or indicate whether it is a rightAttribute person with the <b>rightKey</b> key.<br/><br/>' + 
 			'Examine each picture and make a response quickly, while trying to minimize errors. ' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial; color:#FFFFFF"><br/><br/>' + 
 			'Ready? Hit the <b>space bar</b>.</p>' + 
@@ -322,8 +322,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		middleBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial; color:#FFFFFF"><br/>' + 
 			'Continue to another round of this task. ' + 
 			'The rules are exactly the same:<br/><br/>' + 
-			'Concentrate on each picture and indicate whether it is a leftAttribute with the <b>leftKey</b> key,  ' + 
-			'or indicate whether it is a rightAttribute with the <b>rightKey</b> key.<br/><br/>' + 
+			'Concentrate on each picture and indicate whether it is a leftAttribute person with the <b>leftKey</b> key,  ' + 
+			'or indicate whether it is a rightAttribute person with the <b>rightKey</b> key.<br/><br/>' + 
 			'Examine each picture and make a response quickly, while trying to minimize errors. ' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial; color:#FFFFFF"><br/><br/>' + 
 			'Ready? Hit the <b>space bar</b>.</p>' + 
@@ -333,8 +333,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		lastBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial; color:#FFFFFF"><br/>' + 
 			'Ready for the FINAL round? ' + 
 			'The rules are exactly the same:<br/><br/>' + 
-			'Concentrate on each picture and indicate whether it is a leftAttribute with the <b>leftKey</b> key,  ' + 
-			'or indicate whether it is a rightAttribute with the <b>rightKey</b> key.<br/><br/>' + 
+			'Concentrate on each picture and indicate whether it is a leftAttribute person with the <b>leftKey</b> key,  ' + 
+			'or indicate whether it is a rightAttribute person with the <b>rightKey</b> key.<br/><br/>' + 
 			'Examine each picture and make a response quickly, while trying to minimize errors. ' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial; color:#FFFFFF"><br/><br/>' + 
 			'Ready? Hit the <b>space bar</b>.</p>' + 
@@ -360,7 +360,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		
 			//Instructions text for the 2-responses version.
 		exampleBlockInst: '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial; color:#FFFFFF"><br/>' + 
-			'Press the <b>leftKey</b> key if it is a leftAttribute. Hit the <B>rightKey</B> key if the picture is a rightAttribute.<br/><br/>' + 
+			'Press the <b>leftKey</b> key if it is a leftAttribute person. Hit the <B>rightKey</B> key if the picture is a rightAttribute person.<br/><br/>' + 
 			'The items appear and disappear quickly.  ' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial; color:#FFFFFF"><br/><br/>' + 
 			'When you are ready to try a few practice responses, hit the <b>space bar</b>.</p>' + 
