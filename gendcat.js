@@ -359,8 +359,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		
 			//Instructions text for the 2-responses version.
 		exampleBlockInst: '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial; color:#FFFFFF"><br/>' + 
-			'Press the key <B>rightKey</B> if the picture is a rightAttribute. ' + 
-			'Hit the <b>leftKey</b> key if it is a leftAttribute.<br/><br/>' + 
+			'Press the <b>leftKey</b> key if it is a leftAttribute.<br/><br/>' + 
+			'Hit the <B>rightKey</B> key if the picture is a rightAttribute. ' + 
 			'The items appear and disappear quickly.  ' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial; color:#FFFFFF"><br/><br/>' + 
 			'When you are ready to try a few practice responses, hit the <b>space bar</b>.</p>' + 
