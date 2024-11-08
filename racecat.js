@@ -399,7 +399,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		},
 
 		//For the example block (often practice)  - MEASURED IN MILLISECONS.  1000MS = 1 SECOND
-		exampleBlock_fixationDuration : 200, 
+		exampleBlock_fixationDuration : -1, 
 		exampleBlock_primeDuration : 200, 
 		exampleBlock_postPrimeDuration : 75, 
 		exampleBlock_targetDuration : 1500,
