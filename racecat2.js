@@ -350,7 +350,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		primeDuration : 200, 
 		postPrimeDuration : 75, //Duration of blank screen between prime and target.
 		targetDuration : 500, //Duration of target presentation.
-		ITI : 250, //Duration between trials.
+		ITI : 1500, //Duration between trials.
 
 		//  ********* END REAL TRIALS **********//
 
@@ -398,10 +398,10 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		},
 
 		//For the example block (often practice)  - MEASURED IN MILLISECONS.  1000MS = 1 SECOND
-		exampleBlock_fixationDuration : 200, 
+		exampleBlock_fixationDuration : -1, 
 		exampleBlock_primeDuration : 200, 
 		exampleBlock_postPrimeDuration : 75, 
-		exampleBlock_targetDuration : 250,
+		exampleBlock_targetDuration : 1500,
 
 		// ****** END EXAMPLE ROUND ********
 		
