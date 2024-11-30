@@ -5,7 +5,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 	
 	return ampExtension({
 
-		trialsInBlock : [60, 60, 60, 60, 60, 60, 60, 6o], //Number of trials in each block 
+		trialsInBlock : [60, 60, 60, 60], //Number of trials in each block 
 		trialsInExample : 5, //Change to 0 if you don't want an example block
 	
 		sortingLabel1 : 'Female', //Response is coded as 0. 
@@ -185,116 +185,6 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 					{image : 'BM49.jpg'}, 
 					{image : 'BM50.jpg'}]				
 			},
-			{
-				nameForLogging : 'WF',  //Will be used in the logging
-				//An array of all media objects for this category. The default is pic1-pic200.jpg
-				mediaArray : [
-					{image : 'WF1.jpg'}, 
-					{image : 'WF2.jpg'},
-					{image : 'WF3.jpg'}, 
-					{image : 'WF4.jpg'},
-					{image : 'WF5.jpg'}, 
-					{image : 'WF6.jpg'},
-					{image : 'WF7.jpg'}, 
-					{image : 'WF8.jpg'},
-					{image : 'WF9.jpg'}, 
-					{image : 'WF10.jpg'},
-					{image : 'WF11.jpg'}, 
-					{image : 'WF12.jpg'},
-					{image : 'WF13.jpg'}, 
-					{image : 'WF14.jpg'},
-					{image : 'WF15.jpg'}, 
-					{image : 'WF16.jpg'},
-					{image : 'WF17.jpg'}, 
-					{image : 'WF18.jpg'},
-					{image : 'WF19.jpg'}, 
-					{image : 'WF20.jpg'},
-					{image : 'WF21.jpg'}, 
-					{image : 'WF22.jpg'},
-					{image : 'WF23.jpg'}, 
-					{image : 'WF24.jpg'},
-					{image : 'WF25.jpg'}, 
-					{image : 'WF26.jpg'},
-					{image : 'WF27.jpg'}, 
-					{image : 'WF28.jpg'},
-					{image : 'WF29.jpg'}, 
-					{image : 'WF30.jpg'},
-					{image : 'WF31.jpg'}, 
-					{image : 'WF32.jpg'},
-					{image : 'WF33.jpg'}, 
-					{image : 'WF34.jpg'},
-					{image : 'WF35.jpg'}, 
-					{image : 'WF36.jpg'},
-					{image : 'WF37.jpg'}, 
-					{image : 'WF38.jpg'},
-					{image : 'WF39.jpg'}, 
-					{image : 'WF40.jpg'},
-					{image : 'WF41.jpg'}, 
-					{image : 'WF42.jpg'},
-					{image : 'WF43.jpg'}, 
-					{image : 'WF44.jpg'},
-					{image : 'WF45.jpg'}, 
-					{image : 'WF46.jpg'},
-					{image : 'WF47.jpg'}, 
-					{image : 'WF48.jpg'},
-					{image : 'WF49.jpg'}, 
-					{image : 'WF50.jpg'}]				
-			},
-			{
-				nameForLogging : 'WM',  //Will be used in the logging
-				//An array of all media objects for this category. The default is pic1-pic200.jpg
-				mediaArray : [
-					{image : 'WM1.jpg'}, 
-					{image : 'WM2.jpg'},
-					{image : 'WM3.jpg'}, 
-					{image : 'WM4.jpg'},
-					{image : 'WM5.jpg'}, 
-					{image : 'WM6.jpg'},
-					{image : 'WM7.jpg'}, 
-					{image : 'WM8.jpg'},
-					{image : 'WM9.jpg'}, 
-					{image : 'WM10.jpg'},
-					{image : 'WM11.jpg'}, 
-					{image : 'WM12.jpg'},
-					{image : 'WM13.jpg'}, 
-					{image : 'WM14.jpg'},
-					{image : 'WM15.jpg'}, 
-					{image : 'WM16.jpg'},
-					{image : 'WM17.jpg'}, 
-					{image : 'WM18.jpg'},
-					{image : 'WM19.jpg'}, 
-					{image : 'WM20.jpg'},
-					{image : 'WM21.jpg'}, 
-					{image : 'WM22.jpg'},
-					{image : 'WM23.jpg'}, 
-					{image : 'WM24.jpg'},
-					{image : 'WM25.jpg'}, 
-					{image : 'WM26.jpg'},
-					{image : 'WM27.jpg'}, 
-					{image : 'WM28.jpg'},
-					{image : 'WM29.jpg'}, 
-					{image : 'WM30.jpg'},
-					{image : 'WM31.jpg'}, 
-					{image : 'WM32.jpg'},
-					{image : 'WM33.jpg'}, 
-					{image : 'WM34.jpg'},
-					{image : 'WM35.jpg'}, 
-					{image : 'WM36.jpg'},
-					{image : 'WM37.jpg'}, 
-					{image : 'WM38.jpg'},
-					{image : 'WM39.jpg'}, 
-					{image : 'WM40.jpg'},
-					{image : 'WM41.jpg'}, 
-					{image : 'WM42.jpg'},
-					{image : 'WM43.jpg'}, 
-					{image : 'WM44.jpg'},
-					{image : 'WM45.jpg'}, 
-					{image : 'WM46.jpg'},
-					{image : 'WM47.jpg'}, 
-					{image : 'WM48.jpg'},
-					{image : 'WM49.jpg'}, 
-					{image : 'WM50.jpg'}]				
-			},
 			],
 
 		targetStimulusCSS : {color:'#0000FF','font-size':'2.3em'},
@@ -389,11 +279,11 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 			nameForLogging : 'exampleTarget', //Will be used in the logging
 			//An array of all media objects for this category.
 			mediaArray : [
-				{image : 'WM4.jpg'}, 
-				{image : 'WF4.jpg'},
+				{image : 'BM40.jpg'}, 
+				{image : 'BF20.jpg'},
 				{image : 'BF4.jpg'},
 				{image: 'BM4.jpg'},
-				{image: 'WM6.jpg'}
+				{image: 'BM6.jpg'}
 			]
 		},
 
