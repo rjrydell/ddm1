@@ -40,6 +40,42 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		//The prime categories.
 		primeCats :  [
 			{
+				nameForFeedback : 'fix1',  //Will be used in the user feedback 
+				nameForLogging : 'fix1', //Will be used in the logging
+				//An array of all media objects for this category.
+				mediaArray : [
+					{word : '+'}, 
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'}, 
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'}]
+
+			}, 
+			{
+				nameForFeedback : 'fix2',  //Will be used in the user feedback 
+				nameForLogging : 'fix2', //Will be used in the logging
+				//An array of all media objects for this category.
+				mediaArray : [
+				    	{word : '+'}, 
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'}, 
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'},
+					{word : '+'}]
+			}
+		],
+
+		targetCats :  [
+				{
 				nameForLogging : 'WF',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
@@ -94,7 +130,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 					{image : 'WF49.jpg'}, 
 					{image : 'WF50.jpg'}]				
 			},
-			{
+				{
 				nameForLogging : 'WM',  //Will be used in the logging
 				//An array of all media objects for this category. The default is pic1-pic200.jpg
 				mediaArray : [
@@ -243,10 +279,10 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 			nameForLogging : 'exampleTarget', //Will be used in the logging
 			//An array of all media objects for this category.
 			mediaArray : [
-				{image : 'WM4.jpg'}, 
+				{image : 'WM40.jpg'}, 
+				{image : 'WF20.jpg'},
 				{image : 'WF4.jpg'},
-				{image : 'WF40.jpg'},
-				{image: 'WM40.jpg'},
+				{image: 'WM4.jpg'},
 				{image: 'WM6.jpg'}
 			]
 		},
