@@ -324,4 +324,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		exampleBlock_targetDuration : 1500,
 
 		// ****** END EXAMPLE ROUND ********
+			
+	});
+});
 		
