@@ -230,8 +230,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		firstBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial; color:#FFFFFF"><br/>' + 
 			"See how fast it is? Don't worry if you miss some. " + 
 			'Go with your gut feelings.<br/><br/>' + 
-			'Concentrate on each picture and indicate whether it is a leftAttribute with the <b>leftKey</b> key,  ' + 
-			'or indicate whether it is a rightAttribute with the <b>rightKey</b> key.<br/><br/>' + 
+			'Concentrate on each picture and indicate whether the person is leftAttribute with the <b>leftKey</b> key,  ' + 
+			'or indicate whether the person is rightAttribute with the <b>rightKey</b> key.<br/><br/>' + 
 			'Examine each picture and make a response quickly, while trying to minimize errors. ' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial; color:#FFFFFF"><br/><br/>' + 
 			'Ready? Hit the <b>space bar</b>.</p>' + 
@@ -241,8 +241,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		middleBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial; color:#FFFFFF"><br/>' + 
 			'Continue to another round of this task. ' + 
 			'The rules are exactly the same:<br/><br/>' + 
-			'Concentrate on each picture and indicate whether it is a leftAttribute with the <b>leftKey</b> key,  ' + 
-			'or indicate whether it is a rightAttribute with the <b>rightKey</b> key.<br/><br/>' + 
+			'Concentrate on each picture and indicate whether the person is leftAttribute with the <b>leftKey</b> key,  ' + 
+			'or indicate whether the person is rightAttribute with the <b>rightKey</b> key.<br/><br/>' + 
 			'Examine each picture and make a response quickly, while trying to minimize errors. ' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial; color:#FFFFFF"><br/><br/>' + 
 			'Ready? Hit the <b>space bar</b>.</p>' + 
@@ -252,8 +252,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		lastBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial; color:#FFFFFF"><br/>' + 
 			'Ready for the FINAL round? ' + 
 			'The rules are exactly the same:<br/><br/>' + 
-			'Concentrate on each picture and indicate whether it is a leftAttribute with the <b>leftKey</b> key,  ' + 
-			'or indicate whether it is a rightAttribute with the <b>rightKey</b> key.<br/><br/>' + 
+			'Concentrate on each picture and indicate whether the person is leftAttribute with the <b>leftKey</b> key,  ' + 
+			'or indicate whether the person is rightAttribute with the <b>rightKey</b> key.<br/><br/>' + 
 			'Examine each picture and make a response quickly, while trying to minimize errors. ' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial; color:#FFFFFF"><br/><br/>' + 
 			'Ready? Hit the <b>space bar</b>.</p>' + 
@@ -279,8 +279,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		
 			//Instructions text for the 2-responses version.
 		exampleBlockInst: '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial; color:#FFFFFF"><br/>' + 
-			'Press the <b>leftKey</b> key if it is a leftAttribute. Hit the <B>rightKey</B> key if the picture is a rightAttribute.<br/><br/>' + 
-			'The items appear and disappear quickly.  ' + 
+			'Press the <b>leftKey</b> key if the person is leftAttribute. Hit the <B>rightKey</B> key if the person is rightAttribute.<br/><br/>' + 
+			'The items appear and disappear quickly in the real task, but we will present them until you make a response for the first few trials.  ' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial; color:#FFFFFF"><br/><br/>' + 
 			'When you are ready to try a few practice responses, hit the <b>space bar</b>.</p>' + 
 			'<p style="font-size:12px; text-align:center; font-family:arial; color:#FFFFFF">' + 
@@ -327,3 +327,4 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 			
 	});
 });
+		
