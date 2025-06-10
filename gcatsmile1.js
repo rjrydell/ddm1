@@ -5,7 +5,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 	
 	return ampExtension({
 
-		trialsInBlock : [60, 60, 60, 60, 60, 60, 60, 60], //Number of trials in each block 
+		trialsInBlock : [60, 60, 60, 60, 60, 60, 60], //Number of trials in each block 
 		trialsInExample : 5, //Change to 0 if you don't want an example block
 	
 		sortingLabel1 : 'Trustworthy', //Response is coded as 0. 
