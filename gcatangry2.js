@@ -214,7 +214,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 					{image : 'WM28.jpg'},
 					{image : 'WM29.jpg'}, 
 					{image : 'WM30.jpg'}]				
-			},
+			}
 			],
 
 		targetStimulusCSS : {color:'#0000FF','font-size':'2.3em'},
