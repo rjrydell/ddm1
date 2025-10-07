@@ -61,7 +61,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				nameForLogging : 'fix2', //Will be used in the logging
 				//An array of all media objects for this category.
 				mediaArray : [
-				    	{word : '+'}, 
+				    {word : '+'}, 
 					{word : '+'},
 					{word : '+'},
 					{word : '+'},
@@ -100,7 +100,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 					{image : 'BMA19.jpg'}, 
 					{image : 'BMA20.jpg'},
 					{image : 'BMA21.jpg'}, 
-          {image : 'BMA22.jpg'},
+          	        {image : 'BMA22.jpg'},
 					{image : 'BMA23.jpg'}, 
 					{image : 'BMA24.jpg'},
 					{image : 'BMA25.jpg'}, 
@@ -270,7 +270,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		primeDuration : 200, 
 		postPrimeDuration : 75, //Duration of blank screen between prime and target.
 		targetDuration : 500, //Duration of target presentation.
-		ITI : 1000, //Duration between trials.
+		ITI : 750, //Duration between trials.
 
 		//  ********* END REAL TRIALS **********//
 
