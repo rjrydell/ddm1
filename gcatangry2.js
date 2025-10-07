@@ -300,8 +300,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				{word : '+'}, 
 				{word : '+'}, 
 				{word : '+'},
-				{word: '+'},
-				{word: '+'}
+				{word : '+'},
+				{word : '+'}
 			]
 		},
 
@@ -312,8 +312,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 				{image : 'WM4.jpg'}, 
 				{image : 'WM9.jpg'},
 				{image : 'BM4.jpg'},
-				{image: 'BMA5.jpg'},
-				{image: 'WMA5.jpg'}
+				{image : 'BMA5.jpg'},
+				{image : 'WMA5.jpg'}
 			]
 		},
 
