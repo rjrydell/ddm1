@@ -5,8 +5,8 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 	
 	return ampExtension({
 
-		trialsInBlock : [60, 60, 60, 60, 60, 60, 60], //Number of trials in each block 
-		trialsInExample : 5, //Change to 0 if you don't want an example block
+		trialsInBlock : [24], //Number of trials in each block 
+		trialsInExample : 6, //Change to 0 if you don't want an example block
 	
 		sortingLabel1 : 'Trustworthy', //Response is coded as 0. 
 		sortingLabel2 : 'Untrustworthy',  //Response is coded as 1.
@@ -84,31 +84,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 					{image : 'BMA3.jpg'}, 
 					{image : 'BMA4.jpg'},
 					{image : 'BMA5.jpg'}, 
-					{image : 'BMA6.jpg'},
-					{image : 'BMA7.jpg'}, 
-					{image : 'BMA8.jpg'},
-					{image : 'BMA9.jpg'}, 
-					{image : 'BMA10.jpg'},
-					{image : 'BMA11.jpg'}, 
-					{image : 'BMA12.jpg'},
-					{image : 'BMA13.jpg'}, 
-					{image : 'BMA14.jpg'},
-					{image : 'BMA15.jpg'}, 
-					{image : 'BMA16.jpg'},
-					{image : 'BMA17.jpg'}, 
-					{image : 'BMA18.jpg'},
-					{image : 'BMA19.jpg'}, 
-					{image : 'BMA20.jpg'},
-					{image : 'BMA21.jpg'}, 
-					{image : 'BMA22.jpg'},
-					{image : 'BMA23.jpg'}, 
-					{image : 'BMA24.jpg'},
-					{image : 'BMA25.jpg'}, 
-					{image : 'BMA26.jpg'},
-					{image : 'BMA27.jpg'}, 
-					{image : 'BMA28.jpg'},
-					{image : 'BMA29.jpg'}, 
-					{image : 'BMA30.jpg'}]				
+					{image : 'BMA6.jpg'}]				
 			},
 				{
 				nameForLogging : 'BM',  //Will be used in the logging
@@ -119,31 +95,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 					{image : 'BM3.jpg'}, 
 					{image : 'BM4.jpg'},
 					{image : 'BM5.jpg'}, 
-					{image : 'BM6.jpg'},
-					{image : 'BM7.jpg'}, 
-					{image : 'BM8.jpg'},
-					{image : 'BM9.jpg'}, 
-					{image : 'BM10.jpg'},
-					{image : 'BM11.jpg'}, 
-					{image : 'BM12.jpg'},
-					{image : 'BM13.jpg'}, 
-					{image : 'BM14.jpg'},
-					{image : 'BM15.jpg'}, 
-					{image : 'BM16.jpg'},
-					{image : 'BM17.jpg'}, 
-					{image : 'BM18.jpg'},
-					{image : 'BM19.jpg'}, 
-					{image : 'BM20.jpg'},
-					{image : 'BM21.jpg'}, 
-					{image : 'BM22.jpg'},
-					{image : 'BM23.jpg'}, 
-					{image : 'BM24.jpg'},
-					{image : 'BM25.jpg'}, 
-					{image : 'BM26.jpg'},
-					{image : 'BM27.jpg'}, 
-					{image : 'BM28.jpg'},
-					{image : 'BM29.jpg'}, 
-					{image : 'BM30.jpg'}]				
+					{image : 'BM6.jpg'}]				
 			},
 			{
 				nameForLogging : 'WMA',  //Will be used in the logging
@@ -154,31 +106,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 					{image : 'WMA3.jpg'}, 
 					{image : 'WMA4.jpg'},
 					{image : 'WMA5.jpg'}, 
-					{image : 'WMA6.jpg'},
-					{image : 'WMA7.jpg'}, 
-					{image : 'WMA8.jpg'},
-					{image : 'WMA9.jpg'}, 
-					{image : 'WMA10.jpg'},
-					{image : 'WMA11.jpg'}, 
-					{image : 'WMA12.jpg'},
-					{image : 'WMA13.jpg'}, 
-					{image : 'WMA14.jpg'},
-					{image : 'WMA15.jpg'}, 
-					{image : 'WMA16.jpg'},
-					{image : 'WMA17.jpg'}, 
-					{image : 'WMA18.jpg'},
-					{image : 'WMA19.jpg'}, 
-					{image : 'WMA20.jpg'},
-					{image : 'WMA21.jpg'}, 
-					{image : 'WMA22.jpg'},
-					{image : 'WMA23.jpg'}, 
-					{image : 'WMA24.jpg'},
-					{image : 'WMA25.jpg'}, 
-					{image : 'WMA26.jpg'},
-					{image : 'WMA27.jpg'}, 
-					{image : 'WMA28.jpg'},
-					{image : 'WMA29.jpg'}, 
-					{image : 'WMA30.jpg'}]				
+					{image : 'WMA6.jpg'}]				
 			},
 			{
 				nameForLogging : 'WM',  //Will be used in the logging
@@ -189,31 +117,29 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 					{image : 'WM3.jpg'}, 
 					{image : 'WM4.jpg'},
 					{image : 'WM5.jpg'}, 
-					{image : 'WM6.jpg'},
-					{image : 'WM7.jpg'}, 
-					{image : 'WM8.jpg'},
-					{image : 'WM9.jpg'}, 
-					{image : 'WM10.jpg'},
-					{image : 'WM11.jpg'}, 
-					{image : 'WM12.jpg'},
-					{image : 'WM13.jpg'}, 
-					{image : 'WM14.jpg'},
-					{image : 'WM15.jpg'}, 
-					{image : 'WM16.jpg'},
-					{image : 'WM17.jpg'}, 
-					{image : 'WM18.jpg'},
-					{image : 'WM19.jpg'}, 
-					{image : 'WM20.jpg'},
-					{image : 'WM21.jpg'}, 
-					{image : 'WM22.jpg'},
-					{image : 'WM23.jpg'}, 
-					{image : 'WM24.jpg'},
-					{image : 'WM25.jpg'}, 
-					{image : 'WM26.jpg'},
-					{image : 'WM27.jpg'}, 
-					{image : 'WM28.jpg'},
-					{image : 'WM29.jpg'}, 
-					{image : 'WM30.jpg'}]				
+					{image : 'WM6.jpg'}]				
+			},
+{
+				nameForLogging : 'BMS',  //Will be used in the logging
+				//An array of all media objects for this category. The default is pic1-pic200.jpg
+				mediaArray : [
+					{image : 'BMS1.jpg'}, 
+					{image : 'BMS2.jpg'},
+					{image : 'BMS3.jpg'}, 
+					{image : 'BMS4.jpg'},
+					{image : 'BMS5.jpg'}, 
+					{image : 'BMS6.jpg'}]				
+			},
+{
+				nameForLogging : 'WMS',  //Will be used in the logging
+				//An array of all media objects for this category. The default is pic1-pic200.jpg
+				mediaArray : [
+					{image : 'WMS1.jpg'}, 
+					{image : 'WMS2.jpg'},
+					{image : 'WMS3.jpg'}, 
+					{image : 'WMS4.jpg'},
+					{image : 'WMS5.jpg'}, 
+					{image : 'WMS6.jpg'}]				
 			},
 			],
 
@@ -309,12 +235,12 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 			nameForLogging : 'exampleTarget', //Will be used in the logging
 			//An array of all media objects for this category.
 			mediaArray : [
-				{image : 'WM4.jpg'}, 
-				{image : 'WM22.jpg'},
-				{image : 'BMA4.jpg'},
-				{image : 'BM4.jpg'},
-				{image : 'WMA6.jpg'}
-			]
+				{image : 'WM7.jpg'}, 
+				{image : 'WMA7.jpg'},
+				{image : 'BMA7.jpg'},
+				{image : 'BM7.jpg'},
+				{image : 'BMS7.jpg'}, 
+				{image : 'WMS7.jpg'}]
 		},
 
 		//For the example block (often practice)  - MEASURED IN MILLISECONS.  1000MS = 1 SECOND
