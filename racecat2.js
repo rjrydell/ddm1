@@ -5,7 +5,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 	
 	return ampExtension({
 
-		trialsInBlock : [60, 60, 60, 60], //Number of trials in each block 
+		trialsInBlock : [60, 60, 60, 60, 60, 60, 60, 60], //Number of trials in each block 
 		trialsInExample : 5, //Change to 0 if you don't want an example block
 	
 		sortingLabel1 : 'White', //Response is coded as 0. 
@@ -350,7 +350,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		primeDuration : 200, 
 		postPrimeDuration : 75, //Duration of blank screen between prime and target.
 		targetDuration : 500, //Duration of target presentation.
-		ITI : 1500, //Duration between trials.
+		ITI : 750, //Duration between trials.
 
 		//  ********* END REAL TRIALS **********//
 
@@ -401,7 +401,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		exampleBlock_fixationDuration : -1, 
 		exampleBlock_primeDuration : 200, 
 		exampleBlock_postPrimeDuration : 75, 
-		exampleBlock_targetDuration : 1500,
+		exampleBlock_targetDuration : 750,
 
 		// ****** END EXAMPLE ROUND ********
 		
