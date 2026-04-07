@@ -16,7 +16,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		leftKey : 'e',
 
 		base_url : {//Where are your images at?
-				image : 'https://drive.google.com/drive/folders/1g2iXhny7W8FXiAmX0NKzB12x6V-D7VqD?usp=sharing'
+				image : 'https://rjrydell.github.io/ddm1/images'
 			}, 
 		
 		targetCat : 'SECOND word', //The name of the targets (used in the instructions)
