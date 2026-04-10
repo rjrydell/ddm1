@@ -3358,11 +3358,11 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 			nameForLogging : 'exampleTarget', //Will be used in the logging
 			//An array of all media objects for this category.
 			mediaArray : [
-				{image : 'BT/CFD-BM-001-014-N_threat_kill_s.jpg'}, 
-				{image : 'BS/CFD-BM-001-014-N_safety_hopeful_s.jpg'},
-				{image : 'WT/CFD-WM-257-161-N_threat_shooting_s.jpg'},
-				{image : 'WT/CFD-WM-258-125-N_threat_murder_s.jpg'},
-				{image : 'WS/CFD-WM-258-125-N_safety_comfortable_s.jpg'}
+				{image : 'BS/BS91_2.jpg'}, 
+				{image : 'BS/BS93_13.jpg'},
+				{image : 'BT/BT87_11.jpg'},
+				{image : 'WS/WS94_13.jpg'},
+				{image : 'WT/WT98_16.jpg'}
 			]
 		},
 
