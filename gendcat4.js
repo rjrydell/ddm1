@@ -574,11 +574,11 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 			nameForLogging : 'exampleTarget', //Will be used in the logging
 			//An array of all media objects for this category.
 			mediaArray : [
-				{image : 'WM4.jpg'}, 
-				{image : 'WF4.jpg'},
-				{image : 'BF4.jpg'},
-				{image: 'BM4.jpg'},
-				{image: 'WM6.jpg'}
+				{image : 's_27401.png'},
+				{image : 's_28225.png'},
+				{image : 's_2306bf.png'},
+				{image : 's_24729.png'},
+				{image : 's_21908.png'}
 			]
 		},
 
