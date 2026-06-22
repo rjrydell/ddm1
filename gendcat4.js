@@ -570,18 +570,10 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 			]
 		},
 
-		exampleTargetStimulus : {
-			nameForLogging : 'exampleTarget', //Will be used in the logging
-			//An array of all media objects for this category.
-			mediaArray : [
-				{image : 's_27401.png'},
-				{image : 's_28225.png'},
-				{image : 's_2306bf.png'},
-				{image : 's_24729.png'},
-				{image : 's_21908.png'}
-			]
-		},
-
+exampleTargetStimulus : {
+    nameForLogging : 'exampleTarget',
+    sameAsTargets : true
+},
 		//For the example block (often practice)  - MEASURED IN MILLISECONS.  1000MS = 1 SECOND
 		exampleBlock_fixationDuration : -1, 
 		exampleBlock_primeDuration : 200, 
