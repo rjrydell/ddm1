@@ -8,12 +8,12 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 		trialsInBlock : [50, 50, 50, 50, 50], //Number of trials in each block 
 		trialsInExample : 5, //Change to 0 if you don't want an example block
 	
-		sortingLabel1 : 'Female', //Response is coded as 0. 
-		sortingLabel2 : 'Male',  //Response is coded as 1.
+		sortingLabel1 : 'Male', //Response is coded as 0. 
+		sortingLabel2 : 'Female',  //Response is coded as 1.
 		
 		rightKey : 'i', 
 		leftKey : 'e',
-
+		
 		base_url : {//Where are your images at?
 				image : 'https://rjrydell.github.io/ddm1/images'
 			}, 
