@@ -572,7 +572,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstr
 
 exampleTargetStimulus : {
     nameForLogging : 'exampleTarget',
-    sameAsTargets : true
+    sameAsTargets : false
 },
 		//For the example block (often practice)  - MEASURED IN MILLISECONS.  1000MS = 1 SECOND
 		exampleBlock_fixationDuration : -1, 
