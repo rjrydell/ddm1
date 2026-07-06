@@ -1144,4 +1144,3 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
 	}
 	return ampExtension;	
 });
-
