@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp2.js'], function(APIConstructor, ampExtension){
+define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstructor, ampExtension){
 
 	var API = new APIConstructor();
 	
@@ -572,7 +572,7 @@ define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp2.js'], function(APIConst
 
 exampleTargetStimulus : {
     nameForLogging : 'exampleTarget',
-    sameAsTargets : false
+    sameAsTargets : true
 },
 
 		//For the example block (often practice)  - MEASURED IN MILLISECONS.  1000MS = 1 SECOND
