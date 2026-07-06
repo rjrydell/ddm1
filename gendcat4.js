@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp.js'], function(APIConstructor, ampExtension){
+define(['pipAPI', 'https://rjrydell.github.io/ddm1/jamp2.js'], function(APIConstructor, ampExtension){
 
 	var API = new APIConstructor();
 	
