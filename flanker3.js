@@ -3541,7 +3541,7 @@ define(['pipAPI'], function(APIConstructor) {
      * ADD SEQUENCE
      * ============================================================ */
 
-
+   
     API.addSequence(
         sequence
     );
@@ -3554,5 +3554,5 @@ define(['pipAPI'], function(APIConstructor) {
 
     return API.script;
 
-
+  
 });
