@@ -46,7 +46,7 @@
  *   white1.bmp ... white49.bmp
  */
 
-define(['pipAPI', 'underscore'], function(APIConstructor, _) {
+define(['pipAPI'], function(APIConstructor) {
 
     'use strict';
 
@@ -2014,8 +2014,9 @@ define(['pipAPI', 'underscore'], function(APIConstructor, _) {
      * RUN TASK
      * ============================================================ */
 
-    API.addSequence(
-        sequence
-    );
+    API.addSequence(sequence);
+
+    return API.script;
+});
 
 });
