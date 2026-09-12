@@ -2019,4 +2019,3 @@ define(['pipAPI'], function(APIConstructor) {
     return API.script;
 });
 
-});
