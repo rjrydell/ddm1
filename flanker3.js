@@ -1,49 +1,33 @@
 /*
- * FLANKER2 - Safety / Threat face-word task
+ * FLANKER3 - Safety / Threat face-word task for Qualtrics MinnoJS
  *
- * STANDALONE MinnoJS task.
- * Does NOT require jamp.js.
+ * Standalone task. Does NOT require jamp.js.
  *
- * 480 experimental trials total:
- *   Block 1 = 240
- *   Block 2 = 240
+ * 480 experimental trials:
+ *   Block 1 = 240 trials
+ *   Block 2 = 240 trials
  *
- * One block is CONTINUOUS.
- * One block is SEQUENTIAL.
+ * One block is CONTINUOUS and the other is SEQUENTIAL.
  * Block order is randomized for each participant.
  *
- * Each 240-trial block:
- *   60 BS = Black face + Safety word
- *   60 BT = Black face + Threat word
- *   60 WS = White face + Safety word
- *   60 WT = White face + Threat word
+ * Per block:
+ *   BS = 60 black-face + Safety-word trials
+ *   BT = 60 black-face + Threat-word trials
+ *   WS = 60 white-face + Safety-word trials
+ *   WT = 60 white-face + Threat-word trials
  *
- * IMPORTANT:
- * Each trial selects ONE face image.
- * That SAME face image is shown in all four positions.
+ * Each trial selects ONE face-only BMP and shows that SAME image
+ * in all four locations.
  *
- *                  FACE
+ * Continuous:
+ *   four faces + word appear together; RT starts at word onset.
  *
- *            FACE  WORD  FACE
+ * Sequential:
+ *   four faces appear for 200 ms, disappear, then the word appears;
+ *   RT starts at word onset.
  *
- *                  FACE
- *
- * CONTINUOUS:
- *   Four faces + word appear together.
- *
- * SEQUENTIAL:
- *   Four faces appear for 200 ms.
- *   They disappear.
- *   Word appears.
- *   RT begins at word onset.
- *
- * Response:
- *   E = Threat
- *   I = Safety
- *
- * Face files:
- *   black1.bmp ... black50.bmp
- *   white1.bmp ... white49.bmp
+ * E = Threat
+ * I = Safety
  */
 
 define(['pipAPI'], function(APIConstructor) {
@@ -57,11 +41,7 @@ define(['pipAPI'], function(APIConstructor) {
      * SETTINGS
      * ============================================================ */
 
-    var settings = {
-
-        trialsPerBlock: 240,
-
-        practiceTrials: 5,
+    var SETTINGS = {
 
         fixationDuration: 1000,
 
@@ -70,10 +50,8 @@ define(['pipAPI'], function(APIConstructor) {
         ITI: 750,
 
         leftKey: 'e',
-        rightKey: 'i',
 
-        leftLabel: 'Threat',
-        rightLabel: 'Safety',
+        rightKey: 'i',
 
         base_url: {
             image: 'https://rjrydell.github.io/ddm1/images'
@@ -108,7 +86,8 @@ define(['pipAPI'], function(APIConstructor) {
      * WORDS
      * ============================================================ */
 
-    var safetyWords = [
+    var SAFETY_WORDS = [
+
         'calm',
         'comfortable',
         'friendship',
@@ -125,9 +104,12 @@ define(['pipAPI'], function(APIConstructor) {
         'restful',
         'soft',
         'warmth'
+
     ];
 
-    var threatWords = [
+
+    var THREAT_WORDS = [
+
         'anger',
         'attack',
         'danger',
@@ -144,27 +126,40 @@ define(['pipAPI'], function(APIConstructor) {
         'trouble',
         'unstable',
         'violence'
+
     ];
 
 
     /* ============================================================
-     * FACE FILES
+     * FACE IMAGE POOLS
+     *
+     * black1.bmp ... black50.bmp
+     * white1.bmp ... white49.bmp
      * ============================================================ */
 
-    function makeFacePool(prefix, count) {
+    function makePool(prefix, count) {
 
-        var pool = [];
+        var out = [];
         var i;
 
         for (i = 1; i <= count; i++) {
-            pool.push(prefix + i + '.bmp');
+
+            out.push(
+                prefix + i + '.bmp'
+            );
+
         }
 
-        return pool;
+        return out;
     }
 
-    var blackFaces = makeFacePool('black', 50);
-    var whiteFaces = makeFacePool('white', 49);
+
+    var BLACK_FACES =
+        makePool('black', 50);
+
+
+    var WHITE_FACES =
+        makePool('white', 49);
 
 
     /* ============================================================
@@ -173,17 +168,13 @@ define(['pipAPI'], function(APIConstructor) {
 
     API.addSettings(
         'canvas',
-        settings.canvas
+        SETTINGS.canvas
     );
+
 
     API.addSettings(
         'base_url',
-        settings.base_url
-    );
-
-    API.addSettings(
-        'onEnd',
-        window.minnoJS.onEnd
+        SETTINGS.base_url
     );
 
 
@@ -193,23 +184,42 @@ define(['pipAPI'], function(APIConstructor) {
 
     API.addSettings('logger', {
 
-        onRow: function(logName, log, loggerSettings, ctx) {
+        onRow: function(
+            name,
+            log,
+            settings,
+            ctx
+        ) {
 
             if (!ctx.logs) {
+
                 ctx.logs = [];
+
             }
 
             ctx.logs.push(log);
+
         },
 
-        onEnd: function(name, loggerSettings, ctx) {
+
+        onEnd: function(
+            name,
+            settings,
+            ctx
+        ) {
 
             return ctx.logs || [];
+
         },
 
-        serialize: function(name, logs) {
 
-            var headers = [
+        serialize: function(
+            name,
+            logs
+        ) {
+
+            var rows = [[
+
                 'block',
                 'block_type',
                 'trial',
@@ -222,64 +232,140 @@ define(['pipAPI'], function(APIConstructor) {
                 'response',
                 'correct',
                 'rt'
-            ];
 
-            var rows = [headers];
+            ]];
 
-            logs.forEach(function(log) {
 
-                if (
-                    !log ||
-                    !log.data ||
-                    !log.data.isExperimental
-                ) {
-                    return;
-                }
+            logs.forEach(
+                function(log) {
 
-                rows.push([
-                    log.data.block,
-                    log.data.blockType,
-                    log.trial_id,
-                    log.data.trialType,
-                    log.data.condition,
-                    log.data.faceColor,
-                    log.data.faceImage,
-                    log.data.wordCategory,
-                    log.data.word,
-                    log.data.response,
-                    log.data.correct,
-                    log.latency
-                ]);
-            });
+                    if (
+                        !log ||
+                        !log.data ||
+                        !log.data.isExperimental
+                    ) {
 
-            return rows.map(function(row) {
+                        return;
 
-                return row.map(function(value) {
-
-                    value =
-                        (value === undefined ||
-                         value === null)
-                            ? ''
-                            : String(value);
-
-                    if (/[,\"\n]/.test(value)) {
-
-                        return '"' +
-                            value.replace(/"/g, '""') +
-                            '"';
                     }
 
-                    return value;
 
-                }).join(',');
+                    rows.push([
 
-            }).join('\n');
+                        log.data.block,
+
+                        log.data.blockType,
+
+                        log.trial_id,
+
+                        log.data.trialType,
+
+                        log.data.condition,
+
+                        log.data.faceColor,
+
+                        log.data.faceImage,
+
+                        log.data.wordCategory,
+
+                        log.data.word,
+
+                        log.data.response,
+
+                        log.data.correct,
+
+                        log.latency
+
+                    ]);
+
+                }
+            );
+
+
+            return rows.map(
+                function(row) {
+
+                    return row.map(
+                        function(value) {
+
+                            value =
+                                value === undefined ||
+                                value === null
+                                    ? ''
+                                    : String(value);
+
+
+                            if (
+                                /[,"\n]/.test(value)
+                            ) {
+
+                                return (
+                                    '"' +
+                                    value.replace(
+                                        /"/g,
+                                        '""'
+                                    ) +
+                                    '"'
+                                );
+
+                            }
+
+
+                            return value;
+
+                        }
+
+                    ).join(',');
+
+                }
+
+            ).join('\n');
+
         },
 
-        send: function(name, serialized) {
 
-            window.minnoJS.logger(serialized);
+        send: function(
+            name,
+            serialized
+        ) {
+
+            if (
+                window.minnoJS &&
+                typeof window.minnoJS.logger ===
+                    'function'
+            ) {
+
+                window.minnoJS.logger(
+                    serialized
+                );
+
+            }
+
         }
+
+    });
+
+
+    /* ============================================================
+     * END TASK HOOK FOR QUALTRICS
+     * ============================================================ */
+
+    API.addSettings('hooks', {
+
+        endTask: function() {
+
+            if (
+                window.minnoJS &&
+                typeof window.minnoJS.onEnd ===
+                    'function'
+            ) {
+
+                window.minnoJS.onEnd();
+
+            }
+
+        }
+
     });
 
 
@@ -287,151 +373,205 @@ define(['pipAPI'], function(APIConstructor) {
      * RANDOMIZATION
      * ============================================================ */
 
-    function shuffle(list) {
+    function shuffle(arr) {
 
-        var copy = list.slice();
+        var a = arr.slice();
 
         var i;
         var j;
-        var temp;
+        var t;
+
 
         for (
-            i = copy.length - 1;
+            i = a.length - 1;
             i > 0;
             i--
         ) {
 
-            j = Math.floor(
-                Math.random() * (i + 1)
-            );
+            j =
+                Math.floor(
+                    Math.random() *
+                    (i + 1)
+                );
 
-            temp = copy[i];
-            copy[i] = copy[j];
-            copy[j] = temp;
+
+            t = a[i];
+
+            a[i] = a[j];
+
+            a[j] = t;
+
         }
 
-        return copy;
+
+        return a;
+
     }
 
 
-    /*
-     * Returns a shuffled face from a balanced rotating bag.
+    /* ============================================================
+     * BALANCED FACE PICKER
      *
-     * This avoids repeatedly selecting the same face by chance.
-     */
+     * Uses every face once before reshuffling.
+     * ============================================================ */
 
-    function makeFacePicker(pool) {
+    function makePicker(pool) {
 
-        var bag = [];
-        var index = 0;
+        var bag =
+            shuffle(pool);
 
-        function refill() {
+        var pos = 0;
 
-            bag = shuffle(pool);
-            index = 0;
-        }
-
-        refill();
 
         return function() {
 
-            if (index >= bag.length) {
-                refill();
+            if (
+                pos >= bag.length
+            ) {
+
+                bag =
+                    shuffle(pool);
+
+                pos = 0;
+
             }
 
-            return bag[index++];
+
+            return bag[
+                pos++
+            ];
+
         };
+
     }
 
 
     /* ============================================================
-     * WORD BALANCING
+     * WORD POOL
      *
-     * Block 1:
-     *   first 8 words  = 8 times
-     *   last 8 words   = 7 times
+     * 120 Safety + 120 Threat per block.
      *
-     * Block 2:
-     *   first 8 words  = 7 times
-     *   last 8 words   = 8 times
-     *
-     * Therefore:
-     *   every word appears exactly 15 times across both blocks.
-     *
-     * 16 Safety words x 15 = 240
-     * 16 Threat words x 15 = 240
+     * Across BOTH blocks each individual word appears exactly
+     * 15 times.
      * ============================================================ */
 
-    function makeWordPool(blockNum) {
+    function makeWordPool(
+        blockNum
+    ) {
+
+        var firstReps =
+            blockNum === 1
+                ? 8
+                : 7;
+
+
+        var secondReps =
+            blockNum === 1
+                ? 7
+                : 8;
+
 
         var pool = [];
 
-        var firstReps =
-            blockNum === 1 ? 8 : 7;
+        var i;
+        var r;
+        var reps;
 
-        var secondReps =
-            blockNum === 1 ? 7 : 8;
 
-        function addWords(words, category) {
+        /* SAFETY */
 
-            var i;
-            var r;
-            var reps;
+        for (
+            i = 0;
+            i < SAFETY_WORDS.length;
+            i++
+        ) {
+
+            reps =
+                i < 8
+                    ? firstReps
+                    : secondReps;
+
 
             for (
-                i = 0;
-                i < words.length;
-                i++
+                r = 0;
+                r < reps;
+                r++
             ) {
 
-                reps =
-                    i < 8
-                        ? firstReps
-                        : secondReps;
+                pool.push({
 
-                for (
-                    r = 0;
-                    r < reps;
-                    r++
-                ) {
+                    word:
+                        SAFETY_WORDS[i],
 
-                    pool.push({
-                        word: words[i],
-                        category: category
-                    });
-                }
+                    category:
+                        'safety'
+
+                });
+
             }
+
         }
 
-        addWords(
-            safetyWords,
-            'safety'
+
+        /* THREAT */
+
+        for (
+            i = 0;
+            i < THREAT_WORDS.length;
+            i++
+        ) {
+
+            reps =
+                i < 8
+                    ? firstReps
+                    : secondReps;
+
+
+            for (
+                r = 0;
+                r < reps;
+                r++
+            ) {
+
+                pool.push({
+
+                    word:
+                        THREAT_WORDS[i],
+
+                    category:
+                        'threat'
+
+                });
+
+            }
+
+        }
+
+
+        return shuffle(
+            pool
         );
 
-        addWords(
-            threatWords,
-            'threat'
-        );
-
-        return shuffle(pool);
     }
 
 
     /* ============================================================
-     * CONDITION BALANCING
+     * FOUR CONDITIONS
      *
      * 60 BS
      * 60 BT
      * 60 WS
      * 60 WT
      *
-     * = 240 per block
+     * = 240 trials per block
      * ============================================================ */
 
     function makeConditionSlots() {
 
         var slots = [];
+
         var i;
+
 
         for (
             i = 0;
@@ -440,60 +580,209 @@ define(['pipAPI'], function(APIConstructor) {
         ) {
 
             slots.push({
-                condition: 'BS',
-                faceColor: 'black',
-                wordCategory: 'safety'
+
+                condition:
+                    'BS',
+
+                faceColor:
+                    'black',
+
+                wordCategory:
+                    'safety'
+
             });
 
-            slots.push({
-                condition: 'BT',
-                faceColor: 'black',
-                wordCategory: 'threat'
-            });
 
             slots.push({
-                condition: 'WS',
-                faceColor: 'white',
-                wordCategory: 'safety'
+
+                condition:
+                    'BT',
+
+                faceColor:
+                    'black',
+
+                wordCategory:
+                    'threat'
+
             });
 
+
             slots.push({
-                condition: 'WT',
-                faceColor: 'white',
-                wordCategory: 'threat'
+
+                condition:
+                    'WS',
+
+                faceColor:
+                    'white',
+
+                wordCategory:
+                    'safety'
+
             });
+
+
+            slots.push({
+
+                condition:
+                    'WT',
+
+                faceColor:
+                    'white',
+
+                wordCategory:
+                    'threat'
+
+            });
+
         }
 
-        return shuffle(slots);
+
+        return shuffle(
+            slots
+        );
+
     }
 
 
     /* ============================================================
-     * INSTRUCTIONS
+     * INSTRUCTION TRIAL
      * ============================================================ */
 
-    function instructionHTML(
+    function instructionTrial(
+        html
+    ) {
+
+        return {
+
+            input: [
+
+                {
+                    handle:
+                        'space',
+
+                    on:
+                        'space'
+                }
+
+            ],
+
+
+            stimuli: [
+
+                {
+
+                    media: {
+                        html:
+                            html
+                    },
+
+                    nolog:
+                        true
+
+                }
+
+            ],
+
+
+            interactions: [
+
+                {
+
+                    conditions: [
+
+                        {
+                            type:
+                                'begin'
+                        }
+
+                    ],
+
+                    actions: [
+
+                        {
+                            type:
+                                'showStim',
+
+                            handle:
+                                'All'
+                        }
+
+                    ]
+
+                },
+
+
+                {
+
+                    conditions: [
+
+                        {
+                            type:
+                                'inputEquals',
+
+                            value:
+                                'space'
+                        }
+
+                    ],
+
+                    actions: [
+
+                        {
+                            type:
+                                'hideStim',
+
+                            handle:
+                                'All'
+                        },
+
+                        {
+                            type:
+                                'endTrial'
+                        }
+
+                    ]
+
+                }
+
+            ]
+
+        };
+
+    }
+
+
+    /* ============================================================
+     * INSTRUCTION TEXT
+     * ============================================================ */
+
+    function makeInstructionHTML(
         blockNum,
         blockType,
         practice
     ) {
 
-        var text;
+        var content;
+
 
         if (practice) {
 
-            text =
+            content =
+
                 '<p><b>Practice</b></p>' +
-                '<p>You will see four copies of the same face and a word.</p>' +
-                '<p>Decide whether the <b>word</b> is related to <b>Safety</b> or <b>Threat</b>.</p>';
+
+                '<p>Four copies of the same face ' +
+                'will appear with a word in the middle.</p>';
 
         }
 
         else if (
-            blockType === 'continuous'
+            blockType ===
+            'continuous'
         ) {
 
-            text =
+            content =
+
                 '<p><b>Round ' +
                 blockNum +
                 ' of 2</b></p>' +
@@ -505,363 +794,92 @@ define(['pipAPI'], function(APIConstructor) {
 
         else {
 
-            text =
+            content =
+
                 '<p><b>Round ' +
                 blockNum +
                 ' of 2</b></p>' +
 
                 '<p>The four copies of the same face ' +
                 'will appear for <b>200 ms</b>. ' +
-                'They will then disappear and the word will appear.</p>';
+
+                'They will disappear, and then ' +
+                'the word will appear.</p>';
+
         }
+
 
         return (
 
             '<div style="' +
+
             'color:#FFFFFF;' +
+
             'font-family:Arial,sans-serif;' +
+
             'font-size:20px;' +
+
             'text-align:left;' +
+
             'margin:25px;">' +
 
-            text +
 
-            '<p>Classify the <b>word</b>, not the face.</p>' +
+            content +
 
-            '<p>Press <b>E</b> for Threat and ' +
-            '<b>I</b> for Safety.</p>' +
 
-            '<p>Respond as quickly and accurately as possible.</p>' +
+            '<p>Classify the <b>word</b>, ' +
+            'not the face.</p>' +
+
+
+            '<p>Press <b>E</b> for Threat ' +
+            'and <b>I</b> for Safety.</p>' +
+
+
+            '<p>Respond as quickly and ' +
+            'accurately as possible.</p>' +
+
 
             '<p style="' +
+
             'text-align:center;' +
+
             'font-size:16px;' +
+
             'margin-top:40px;">' +
 
-            'Press the <b>SPACE BAR</b> to begin.' +
+
+            'Press the <b>SPACE BAR</b> ' +
+            'to begin.' +
+
 
             '</p>' +
 
             '</div>'
+
         );
-    }
 
-
-    function addInstructionSet(
-        name,
-        blockNum,
-        blockType,
-        practice
-    ) {
-
-        API.addTrialSets(
-
-            name,
-
-            {
-
-                data: {
-
-                    block:
-                        blockNum || 0,
-
-                    condition:
-                        'instructions',
-
-                    isExperimental:
-                        false
-                },
-
-                input: [
-
-                    {
-                        handle: 'space',
-                        on: 'space'
-                    }
-
-                ],
-
-                stimuli: [
-
-                    {
-                        media: {
-                            html:
-                                instructionHTML(
-                                    blockNum,
-                                    blockType,
-                                    practice
-                                )
-                        },
-
-                        nolog: true
-                    }
-
-                ],
-
-                interactions: [
-
-                    {
-                        conditions: [
-                            {
-                                type: 'begin'
-                            }
-                        ],
-
-                        actions: [
-                            {
-                                type: 'showStim',
-                                handle: 'All'
-                            }
-                        ]
-                    },
-
-                    {
-                        conditions: [
-                            {
-                                type: 'inputEquals',
-                                value: 'space'
-                            }
-                        ],
-
-                        actions: [
-
-                            {
-                                type: 'hideStim',
-                                handle: 'All'
-                            },
-
-                            {
-                                type: 'setInput',
-
-                                input: {
-
-                                    handle:
-                                        'endTrial',
-
-                                    on:
-                                        'timeout',
-
-                                    duration:
-                                        500
-                                }
-                            }
-                        ]
-                    },
-
-                    {
-                        conditions: [
-                            {
-                                type:
-                                    'inputEquals',
-
-                                value:
-                                    'endTrial'
-                            }
-                        ],
-
-                        actions: [
-                            {
-                                type:
-                                    'endTrial'
-                            }
-                        ]
-                    }
-                ]
-            }
-        );
     }
 
 
     /* ============================================================
-     * STIMULI
+     * CONTINUOUS TRIAL INTERACTIONS
      * ============================================================ */
 
-    API.addStimulusSets({
+    function continuousInteractions() {
 
-        fixation: [
+        return [
 
-            {
-                data: {
-                    handle: 'fixation'
-                },
-
-                media: {
-                    word: '+'
-                },
-
-                css: {
-                    color: '#FFFFFF',
-                    'font-size': '3em'
-                },
-
-                nolog: true
-            }
-        ],
-
-        word: [
-
-            {
-                data: {
-                    handle: 'word'
-                },
-
-                media: {
-                    word: ' '
-                },
-
-                location: {
-                    left: 50,
-                    top: 50
-                },
-
-                css:
-                    settings.wordCSS,
-
-                nolog: true
-            }
-        ],
-
-        faceTop: [
-
-            {
-                data: {
-                    handle: 'faceTop'
-                },
-
-                media: {
-                    image: ' '
-                },
-
-                location: {
-                    left: 50,
-                    top: 25
-                },
-
-                css:
-                    settings.faceCSS,
-
-                nolog: true
-            }
-        ],
-
-        faceBottom: [
-
-            {
-                data: {
-                    handle: 'faceBottom'
-                },
-
-                media: {
-                    image: ' '
-                },
-
-                location: {
-                    left: 50,
-                    top: 75
-                },
-
-                css:
-                    settings.faceCSS,
-
-                nolog: true
-            }
-        ],
-
-        faceLeft: [
-
-            {
-                data: {
-                    handle: 'faceLeft'
-                },
-
-                media: {
-                    image: ' '
-                },
-
-                location: {
-                    left: 25,
-                    top: 50
-                },
-
-                css:
-                    settings.faceCSS,
-
-                nolog: true
-            }
-        ],
-
-        faceRight: [
-
-            {
-                data: {
-                    handle: 'faceRight'
-                },
-
-                media: {
-                    image: ' '
-                },
-
-                location: {
-                    left: 75,
-                    top: 50
-                },
-
-                css:
-                    settings.faceCSS,
-
-                nolog: true
-            }
-        ],
-
-        dummyForLog: [
-
-            {
-                data: {
-                    handle: 'dummyForLog'
-                },
-
-                media: {
-                    word: ' '
-                },
-
-                location: {
-                    left: 99,
-                    top: 99
-                },
-
-                nolog: true
-            }
-        ]
-    });
-
-
-    /* ============================================================
-     * TRIAL FACTORY
-     * ============================================================ */
-
-    var trialCounter = 1;
-
-
-    function makeTrial(spec) {
-
-        var trialSetName =
-            'trial_' +
-            (trialCounter++);
-
-
-        var interactions = [
-
-            /* ----------------------------------------------------
-             * BEGIN -> FIXATION
-             * ---------------------------------------------------- */
+            /* FIXATION */
 
             {
 
                 conditions: [
+
                     {
                         type:
                             'begin'
                     }
+
                 ],
 
                 actions: [
@@ -884,17 +902,18 @@ define(['pipAPI'], function(APIConstructor) {
                         duration:
                             '<%=trialData.fixationDuration%>'
                     }
+
                 ]
+
             },
 
 
-            /* ----------------------------------------------------
-             * SHOW FOUR COPIES OF SAME FACE
-             * ---------------------------------------------------- */
+            /* SHOW FACES + WORD TOGETHER */
 
             {
 
                 conditions: [
+
                     {
                         type:
                             'inputEquals',
@@ -902,6 +921,7 @@ define(['pipAPI'], function(APIConstructor) {
                         value:
                             'fixationOut'
                     }
+
                 ],
 
                 actions: [
@@ -944,35 +964,7 @@ define(['pipAPI'], function(APIConstructor) {
 
                         handle:
                             'faceRight'
-                    }
-                ]
-            }
-        ];
-
-
-        /* ========================================================
-         * CONTINUOUS
-         * ======================================================== */
-
-        if (
-            spec.trialType ===
-            'continuous'
-        ) {
-
-            interactions.push({
-
-                conditions: [
-
-                    {
-                        type:
-                            'inputEquals',
-
-                        value:
-                            'fixationOut'
-                    }
-                ],
-
-                actions: [
+                    },
 
                     {
                         type:
@@ -982,13 +974,16 @@ define(['pipAPI'], function(APIConstructor) {
                             'word'
                     },
 
-                    /*
-                     * RT timer starts when the word appears.
-                     */
+
+                    /* RT START */
+
                     {
                         type:
                             'resetTimer'
                     },
+
+
+                    /* E = THREAT */
 
                     {
                         type:
@@ -1003,9 +998,14 @@ define(['pipAPI'], function(APIConstructor) {
                                 'keypressed',
 
                             key:
-                                settings.leftKey
+                                SETTINGS.leftKey
+
                         }
+
                     },
+
+
+                    /* I = SAFETY */
 
                     {
                         type:
@@ -1020,21 +1020,20 @@ define(['pipAPI'], function(APIConstructor) {
                                 'keypressed',
 
                             key:
-                                settings.rightKey
+                                SETTINGS.rightKey
+
                         }
+
                     }
+
                 ]
-            });
-        }
+
+            },
 
 
-        /* ========================================================
-         * SEQUENTIAL
-         * ======================================================== */
+            /* THREAT RESPONSE */
 
-        else {
-
-            interactions.push({
+            {
 
                 conditions: [
 
@@ -1043,147 +1042,9 @@ define(['pipAPI'], function(APIConstructor) {
                             'inputEquals',
 
                         value:
-                            'fixationOut'
+                            'Threat'
                     }
-                ],
 
-                actions: [
-
-                    {
-                        type:
-                            'trigger',
-
-                        handle:
-                            'imagesOut',
-
-                        duration:
-                            '<%=trialData.imageDuration%>'
-                    }
-                ]
-            });
-
-
-            interactions.push({
-
-                conditions: [
-
-                    {
-                        type:
-                            'inputEquals',
-
-                        value:
-                            'imagesOut'
-                    }
-                ],
-
-                actions: [
-
-                    {
-                        type:
-                            'hideStim',
-
-                        handle:
-                            'faceTop'
-                    },
-
-                    {
-                        type:
-                            'hideStim',
-
-                        handle:
-                            'faceBottom'
-                    },
-
-                    {
-                        type:
-                            'hideStim',
-
-                        handle:
-                            'faceLeft'
-                    },
-
-                    {
-                        type:
-                            'hideStim',
-
-                        handle:
-                            'faceRight'
-                    },
-
-                    {
-                        type:
-                            'showStim',
-
-                        handle:
-                            'word'
-                    },
-
-                    /*
-                     * RT starts at word onset.
-                     */
-                    {
-                        type:
-                            'resetTimer'
-                    },
-
-                    {
-                        type:
-                            'setInput',
-
-                        input: {
-
-                            handle:
-                                'Threat',
-
-                            on:
-                                'keypressed',
-
-                            key:
-                                settings.leftKey
-                        }
-                    },
-
-                    {
-                        type:
-                            'setInput',
-
-                        input: {
-
-                            handle:
-                                'Safety',
-
-                            on:
-                                'keypressed',
-
-                            key:
-                                settings.rightKey
-                        }
-                    }
-                ]
-            });
-        }
-
-
-        /* ========================================================
-         * RESPONSE HANDLERS
-         * ======================================================== */
-
-        function addResponseHandler(
-            response,
-            isCorrect
-        ) {
-
-            interactions.push({
-
-                conditions: [
-
-                    {
-                        type:
-                            'inputEquals',
-
-                        value:
-                            response
-                    }
                 ],
 
                 actions: [
@@ -1193,16 +1054,19 @@ define(['pipAPI'], function(APIConstructor) {
                             'setTrialAttr',
 
                         setter:
-                            function(trialData) {
+                            function(td) {
 
-                                trialData.response =
-                                    response;
+                                td.response =
+                                    'Threat';
 
-                                trialData.correct =
-                                    isCorrect
+                                td.correct =
+                                    td.wordCategory ===
+                                    'threat'
                                         ? 1
                                         : 0;
+
                             }
+
                     },
 
                     {
@@ -1240,280 +1104,1180 @@ define(['pipAPI'], function(APIConstructor) {
 
                             duration:
                                 '<%=trialData.ITI%>'
+
                         }
+
                     }
+
                 ]
-            });
-        }
+
+            },
 
 
-        addResponseHandler(
-            'Threat',
-            spec.wordCategory ===
-                'threat'
-        );
-
-        addResponseHandler(
-            'Safety',
-            spec.wordCategory ===
-                'safety'
-        );
-
-
-        /* --------------------------------------------------------
-         * END TRIAL
-         * -------------------------------------------------------- */
-
-        interactions.push({
-
-            conditions: [
-
-                {
-                    type:
-                        'inputEquals',
-
-                    value:
-                        'endTrial'
-                }
-            ],
-
-            actions: [
-
-                {
-                    type:
-                        'endTrial'
-                }
-            ]
-        });
-
-
-        /* ========================================================
-         * DEFINE TRIAL SET
-         * ======================================================== */
-
-        API.addTrialSets(
-
-            trialSetName,
+            /* SAFETY RESPONSE */
 
             {
 
-                deepTemplate: [
-                    'interactions'
-                ],
-
-                data: {
-
-                    fixationDuration:
-                        settings.fixationDuration,
-
-                    imageDuration:
-                        settings.sequentialImageDuration,
-
-                    ITI:
-                        settings.ITI,
-
-                    block:
-                        spec.block,
-
-                    blockType:
-                        spec.blockType,
-
-                    trialType:
-                        spec.trialType,
-
-                    condition:
-                        spec.condition,
-
-                    faceColor:
-                        spec.faceColor,
-
-                    faceImage:
-                        spec.faceImage,
-
-                    wordCategory:
-                        spec.wordCategory,
-
-                    word:
-                        spec.word,
-
-                    response:
-                        '',
-
-                    correct:
-                        '',
-
-                    isExperimental:
-                        !!spec.isExperimental
-                },
-
-
-                stimuli: [
+                conditions: [
 
                     {
-                        inherit:
-                            'fixation'
-                    },
+                        type:
+                            'inputEquals',
 
-                    {
-                        inherit:
-                            'word',
-
-                        media: {
-                            word:
-                                spec.word
-                        }
-                    },
-
-
-                    /*
-                     * THE SAME IMAGE IS USED FOUR TIMES
-                     */
-
-                    {
-                        inherit:
-                            'faceTop',
-
-                        media: {
-                            image:
-                                spec.faceImage
-                        }
-                    },
-
-                    {
-                        inherit:
-                            'faceBottom',
-
-                        media: {
-                            image:
-                                spec.faceImage
-                        }
-                    },
-
-                    {
-                        inherit:
-                            'faceLeft',
-
-                        media: {
-                            image:
-                                spec.faceImage
-                        }
-                    },
-
-                    {
-                        inherit:
-                            'faceRight',
-
-                        media: {
-                            image:
-                                spec.faceImage
-                        }
-                    },
-
-                    {
-                        inherit:
-                            'dummyForLog'
+                        value:
+                            'Safety'
                     }
+
                 ],
 
-                interactions:
-                    interactions
+                actions: [
+
+                    {
+                        type:
+                            'setTrialAttr',
+
+                        setter:
+                            function(td) {
+
+                                td.response =
+                                    'Safety';
+
+                                td.correct =
+                                    td.wordCategory ===
+                                    'safety'
+                                        ? 1
+                                        : 0;
+
+                            }
+
+                    },
+
+                    {
+                        type:
+                            'hideStim',
+
+                        handle:
+                            'All'
+                    },
+
+                    {
+                        type:
+                            'removeInput',
+
+                        handle:
+                            'All'
+                    },
+
+                    {
+                        type:
+                            'log'
+                    },
+
+                    {
+                        type:
+                            'setInput',
+
+                        input: {
+
+                            handle:
+                                'endTrial',
+
+                            on:
+                                'timeout',
+
+                            duration:
+                                '<%=trialData.ITI%>'
+
+                        }
+
+                    }
+
+                ]
+
+            },
+
+
+            /* END */
+
+            {
+
+                conditions: [
+
+                    {
+                        type:
+                            'inputEquals',
+
+                        value:
+                            'endTrial'
+                    }
+
+                ],
+
+                actions: [
+
+                    {
+                        type:
+                            'endTrial'
+                    }
+
+                ]
+
             }
-        });
 
+        ];
 
-        return {
-            inherit:
-                trialSetName
-        };
     }
 
 
     /* ============================================================
-     * PRACTICE
+     * SEQUENTIAL TRIAL INTERACTIONS
      * ============================================================ */
 
-    addInstructionSet(
-        'practiceInstructions',
-        0,
-        'continuous',
-        true
+    function sequentialInteractions() {
+
+        return [
+
+            /* FIXATION */
+
+            {
+
+                conditions: [
+
+                    {
+                        type:
+                            'begin'
+                    }
+
+                ],
+
+                actions: [
+
+                    {
+                        type:
+                            'showStim',
+
+                        handle:
+                            'fixation'
+                    },
+
+                    {
+                        type:
+                            'trigger',
+
+                        handle:
+                            'fixationOut',
+
+                        duration:
+                            '<%=trialData.fixationDuration%>'
+                    }
+
+                ]
+
+            },
+
+
+            /* SHOW FOUR IDENTICAL FACES */
+
+            {
+
+                conditions: [
+
+                    {
+                        type:
+                            'inputEquals',
+
+                        value:
+                            'fixationOut'
+                    }
+
+                ],
+
+                actions: [
+
+                    {
+                        type:
+                            'hideStim',
+
+                        handle:
+                            'fixation'
+                    },
+
+                    {
+                        type:
+                            'showStim',
+
+                        handle:
+                            'faceTop'
+                    },
+
+                    {
+                        type:
+                            'showStim',
+
+                        handle:
+                            'faceBottom'
+                    },
+
+                    {
+                        type:
+                            'showStim',
+
+                        handle:
+                            'faceLeft'
+                    },
+
+                    {
+                        type:
+                            'showStim',
+
+                        handle:
+                            'faceRight'
+                    },
+
+                    {
+                        type:
+                            'trigger',
+
+                        handle:
+                            'imagesOut',
+
+                        duration:
+                            '<%=trialData.imageDuration%>'
+                    }
+
+                ]
+
+            },
+
+
+            /* AFTER 200 MS:
+             * REMOVE FACES AND SHOW WORD
+             */
+
+            {
+
+                conditions: [
+
+                    {
+                        type:
+                            'inputEquals',
+
+                        value:
+                            'imagesOut'
+                    }
+
+                ],
+
+                actions: [
+
+                    {
+                        type:
+                            'hideStim',
+
+                        handle:
+                            'faceTop'
+                    },
+
+                    {
+                        type:
+                            'hideStim',
+
+                        handle:
+                            'faceBottom'
+                    },
+
+                    {
+                        type:
+                            'hideStim',
+
+                        handle:
+                            'faceLeft'
+                    },
+
+                    {
+                        type:
+                            'hideStim',
+
+                        handle:
+                            'faceRight'
+                    },
+
+                    {
+                        type:
+                            'showStim',
+
+                        handle:
+                            'word'
+                    },
+
+
+                    /* RT STARTS AT WORD ONSET */
+
+                    {
+                        type:
+                            'resetTimer'
+                    },
+
+
+                    {
+                        type:
+                            'setInput',
+
+                        input: {
+
+                            handle:
+                                'Threat',
+
+                            on:
+                                'keypressed',
+
+                            key:
+                                SETTINGS.leftKey
+
+                        }
+
+                    },
+
+
+                    {
+                        type:
+                            'setInput',
+
+                        input: {
+
+                            handle:
+                                'Safety',
+
+                            on:
+                                'keypressed',
+
+                            key:
+                                SETTINGS.rightKey
+
+                        }
+
+                    }
+
+                ]
+
+            },
+
+
+            /* THREAT RESPONSE */
+
+            {
+
+                conditions: [
+
+                    {
+                        type:
+                            'inputEquals',
+
+                        value:
+                            'Threat'
+                    }
+
+                ],
+
+                actions: [
+
+                    {
+                        type:
+                            'setTrialAttr',
+
+                        setter:
+                            function(td) {
+
+                                td.response =
+                                    'Threat';
+
+                                td.correct =
+                                    td.wordCategory ===
+                                    'threat'
+                                        ? 1
+                                        : 0;
+
+                            }
+
+                    },
+
+                    {
+                        type:
+                            'hideStim',
+
+                        handle:
+                            'All'
+                    },
+
+                    {
+                        type:
+                            'removeInput',
+
+                        handle:
+                            'All'
+                    },
+
+                    {
+                        type:
+                            'log'
+                    },
+
+                    {
+                        type:
+                            'setInput',
+
+                        input: {
+
+                            handle:
+                                'endTrial',
+
+                            on:
+                                'timeout',
+
+                            duration:
+                                '<%=trialData.ITI%>'
+
+                        }
+
+                    }
+
+                ]
+
+            },
+
+
+            /* SAFETY RESPONSE */
+
+            {
+
+                conditions: [
+
+                    {
+                        type:
+                            'inputEquals',
+
+                        value:
+                            'Safety'
+                    }
+
+                ],
+
+                actions: [
+
+                    {
+                        type:
+                            'setTrialAttr',
+
+                        setter:
+                            function(td) {
+
+                                td.response =
+                                    'Safety';
+
+                                td.correct =
+                                    td.wordCategory ===
+                                    'safety'
+                                        ? 1
+                                        : 0;
+
+                            }
+
+                    },
+
+                    {
+                        type:
+                            'hideStim',
+
+                        handle:
+                            'All'
+                    },
+
+                    {
+                        type:
+                            'removeInput',
+
+                        handle:
+                            'All'
+                    },
+
+                    {
+                        type:
+                            'log'
+                    },
+
+                    {
+                        type:
+                            'setInput',
+
+                        input: {
+
+                            handle:
+                                'endTrial',
+
+                            on:
+                                'timeout',
+
+                            duration:
+                                '<%=trialData.ITI%>'
+
+                        }
+
+                    }
+
+                ]
+
+            },
+
+
+            /* END */
+
+            {
+
+                conditions: [
+
+                    {
+                        type:
+                            'inputEquals',
+
+                        value:
+                            'endTrial'
+                    }
+
+                ],
+
+                actions: [
+
+                    {
+                        type:
+                            'endTrial'
+                    }
+
+                ]
+
+            }
+
+        ];
+
+    }
+
+
+    /* ============================================================
+     * CREATE ONE TRIAL
+     * ============================================================ */
+
+    function makeTrial(spec) {
+
+        return {
+
+            data: {
+
+                block:
+                    spec.block,
+
+                blockType:
+                    spec.blockType,
+
+                trialType:
+                    spec.trialType,
+
+                condition:
+                    spec.condition,
+
+                faceColor:
+                    spec.faceColor,
+
+                faceImage:
+                    spec.faceImage,
+
+                wordCategory:
+                    spec.wordCategory,
+
+                word:
+                    spec.word,
+
+                fixationDuration:
+                    SETTINGS.fixationDuration,
+
+                imageDuration:
+                    SETTINGS.sequentialImageDuration,
+
+                ITI:
+                    SETTINGS.ITI,
+
+                response:
+                    '',
+
+                correct:
+                    '',
+
+                isExperimental:
+                    spec.isExperimental
+
+            },
+
+
+            input: [],
+
+
+            stimuli: [
+
+                /* FIXATION */
+
+                {
+
+                    data: {
+                        handle:
+                            'fixation'
+                    },
+
+                    media: {
+                        word:
+                            '+'
+                    },
+
+                    css: {
+                        color:
+                            '#FFFFFF',
+
+                        'font-size':
+                            '3em'
+                    },
+
+                    nolog:
+                        true
+
+                },
+
+
+                /* CENTER WORD */
+
+                {
+
+                    data: {
+                        handle:
+                            'word'
+                    },
+
+                    media: {
+                        word:
+                            spec.word
+                    },
+
+                    location: {
+                        left:
+                            50,
+
+                        top:
+                            50
+                    },
+
+                    css:
+                        SETTINGS.wordCSS,
+
+                    nolog:
+                        true
+
+                },
+
+
+                /* =================================================
+                 * SAME FACE - TOP
+                 * ================================================= */
+
+                {
+
+                    data: {
+                        handle:
+                            'faceTop'
+                    },
+
+                    media: {
+                        image:
+                            spec.faceImage
+                    },
+
+                    location: {
+                        left:
+                            50,
+
+                        top:
+                            25
+                    },
+
+                    css:
+                        SETTINGS.faceCSS,
+
+                    nolog:
+                        true
+
+                },
+
+
+                /* SAME FACE - BOTTOM */
+
+                {
+
+                    data: {
+                        handle:
+                            'faceBottom'
+                    },
+
+                    media: {
+                        image:
+                            spec.faceImage
+                    },
+
+                    location: {
+                        left:
+                            50,
+
+                        top:
+                            75
+                    },
+
+                    css:
+                        SETTINGS.faceCSS,
+
+                    nolog:
+                        true
+
+                },
+
+
+                /* SAME FACE - LEFT */
+
+                {
+
+                    data: {
+                        handle:
+                            'faceLeft'
+                    },
+
+                    media: {
+                        image:
+                            spec.faceImage
+                    },
+
+                    location: {
+                        left:
+                            25,
+
+                        top:
+                            50
+                    },
+
+                    css:
+                        SETTINGS.faceCSS,
+
+                    nolog:
+                        true
+
+                },
+
+
+                /* SAME FACE - RIGHT */
+
+                {
+
+                    data: {
+                        handle:
+                            'faceRight'
+                    },
+
+                    media: {
+                        image:
+                            spec.faceImage
+                    },
+
+                    location: {
+                        left:
+                            75,
+
+                        top:
+                            50
+                    },
+
+                    css:
+                        SETTINGS.faceCSS,
+
+                    nolog:
+                        true
+
+                },
+
+
+                /* DUMMY */
+
+                {
+
+                    data: {
+                        handle:
+                            'dummyForLog'
+                    },
+
+                    media: {
+                        word:
+                            ' '
+                    },
+
+                    location: {
+                        left:
+                            99,
+
+                        top:
+                            99
+                    },
+
+                    nolog:
+                        true
+
+                }
+
+            ],
+
+
+            interactions:
+
+                spec.trialType ===
+                'continuous'
+
+                    ? continuousInteractions()
+
+                    : sequentialInteractions()
+
+        };
+
+    }
+
+
+    /* ============================================================
+     * BUILD ONE 240-TRIAL BLOCK
+     * ============================================================ */
+
+    function buildBlock(
+        blockNum,
+        blockType,
+        isExperimental
+    ) {
+
+        var wordPool =
+            makeWordPool(
+                blockNum
+            );
+
+
+        var slots =
+            makeConditionSlots();
+
+
+        var blackPicker =
+            makePicker(
+                BLACK_FACES
+            );
+
+
+        var whitePicker =
+            makePicker(
+                WHITE_FACES
+            );
+
+
+        var safetyWords =
+            shuffle(
+
+                wordPool.filter(
+                    function(x) {
+
+                        return (
+                            x.category ===
+                            'safety'
+                        );
+
+                    }
+                )
+
+            );
+
+
+        var threatWords =
+            shuffle(
+
+                wordPool.filter(
+                    function(x) {
+
+                        return (
+                            x.category ===
+                            'threat'
+                        );
+
+                    }
+                )
+
+            );
+
+
+        var safetySlots =
+            shuffle(
+
+                slots.filter(
+                    function(x) {
+
+                        return (
+                            x.wordCategory ===
+                            'safety'
+                        );
+
+                    }
+                )
+
+            );
+
+
+        var threatSlots =
+            shuffle(
+
+                slots.filter(
+                    function(x) {
+
+                        return (
+                            x.wordCategory ===
+                            'threat'
+                        );
+
+                    }
+                )
+
+            );
+
+
+        var trials = [];
+
+        var i;
+
+
+        /* ========================================================
+         * 120 SAFETY TRIALS
+         * ======================================================== */
+
+        for (
+            i = 0;
+            i < safetyWords.length;
+            i++
+        ) {
+
+            var ss =
+                safetySlots[i];
+
+
+            trials.push({
+
+                block:
+                    blockNum,
+
+                blockType:
+                    blockType,
+
+                trialType:
+                    blockType,
+
+                condition:
+                    ss.condition,
+
+                faceColor:
+                    ss.faceColor,
+
+                faceImage:
+
+                    ss.faceColor ===
+                    'black'
+
+                        ? blackPicker()
+
+                        : whitePicker(),
+
+                wordCategory:
+                    'safety',
+
+                word:
+                    safetyWords[i].word,
+
+                isExperimental:
+                    isExperimental
+
+            });
+
+        }
+
+
+        /* ========================================================
+         * 120 THREAT TRIALS
+         * ======================================================== */
+
+        for (
+            i = 0;
+            i < threatWords.length;
+            i++
+        ) {
+
+            var ts =
+                threatSlots[i];
+
+
+            trials.push({
+
+                block:
+                    blockNum,
+
+                blockType:
+                    blockType,
+
+                trialType:
+                    blockType,
+
+                condition:
+                    ts.condition,
+
+                faceColor:
+                    ts.faceColor,
+
+                faceImage:
+
+                    ts.faceColor ===
+                    'black'
+
+                        ? blackPicker()
+
+                        : whitePicker(),
+
+                wordCategory:
+                    'threat',
+
+                word:
+                    threatWords[i].word,
+
+                isExperimental:
+                    isExperimental
+
+            });
+
+        }
+
+
+        /*
+         * RANDOMIZE ALL 240 TRIALS
+         */
+
+        return shuffle(
+            trials
+        );
+
+    }
+
+
+    /* ============================================================
+     * BUILD SEQUENCE
+     * ============================================================ */
+
+    var sequence = [];
+
+
+    /* ============================================================
+     * PRACTICE INSTRUCTIONS
+     * ============================================================ */
+
+    sequence.push(
+
+        instructionTrial(
+
+            makeInstructionHTML(
+                0,
+                'continuous',
+                true
+            )
+
+        )
+
     );
 
 
-    var sequence = [
-
-        {
-            inherit:
-                'practiceInstructions'
-        }
-    ];
-
+    /* ============================================================
+     * FIVE PRACTICE TRIALS
+     * ============================================================ */
 
     var practiceBlack =
-        makeFacePicker(
-            blackFaces
+        makePicker(
+            BLACK_FACES
         );
 
+
     var practiceWhite =
-        makeFacePicker(
-            whiteFaces
+        makePicker(
+            WHITE_FACES
         );
 
 
     var p;
 
+
     for (
         p = 0;
-        p < settings.practiceTrials;
+        p < 5;
         p++
     ) {
 
-        var practiceWordCategory =
-            p % 2 === 0
-                ? 'safety'
-                : 'threat';
+        var pSafety =
+            p % 2 === 0;
 
-        var practiceWordList =
-            practiceWordCategory === 'safety'
-                ? safetyWords
-                : threatWords;
 
-        var practiceWord =
-            practiceWordList[
-                p % practiceWordList.length
+        var pWordPool =
+            pSafety
+                ? SAFETY_WORDS
+                : THREAT_WORDS;
+
+
+        var pWord =
+            pWordPool[
+                p %
+                pWordPool.length
             ];
 
-        var practiceCondition;
-        var practiceColor;
-        var practiceFace;
 
-
-        if (
+        var pColor =
             p % 2 === 0
-        ) {
+                ? 'black'
+                : 'white';
 
-            practiceCondition =
-                'BS';
 
-            practiceColor =
-                'black';
+        var pCondition;
 
-            practiceFace =
-                practiceBlack();
+        var pFace;
+
+
+        if (pSafety) {
+
+            pCondition =
+                pColor === 'black'
+                    ? 'BS'
+                    : 'WS';
 
         }
 
         else {
 
-            practiceCondition =
-                'WT';
+            pCondition =
+                pColor === 'black'
+                    ? 'BT'
+                    : 'WT';
 
-            practiceColor =
-                'white';
-
-            practiceFace =
-                practiceWhite();
         }
+
+
+        pFace =
+            pColor === 'black'
+
+                ? practiceBlack()
+
+                : practiceWhite();
 
 
         sequence.push(
@@ -1530,24 +2294,29 @@ define(['pipAPI'], function(APIConstructor) {
                     'continuous',
 
                 condition:
-                    practiceCondition,
+                    pCondition,
 
                 faceColor:
-                    practiceColor,
+                    pColor,
 
                 faceImage:
-                    practiceFace,
+                    pFace,
 
                 wordCategory:
-                    practiceWordCategory,
+                    pSafety
+                        ? 'safety'
+                        : 'threat',
 
                 word:
-                    practiceWord,
+                    pWord,
 
                 isExperimental:
                     false
+
             })
+
         );
+
     }
 
 
@@ -1555,329 +2324,110 @@ define(['pipAPI'], function(APIConstructor) {
      * RANDOMIZE BLOCK ORDER
      * ============================================================ */
 
-    var firstBlockType =
+    var firstType =
+
         Math.random() < 0.5
+
             ? 'continuous'
+
             : 'sequential';
 
-    var secondBlockType =
-        firstBlockType ===
-            'continuous'
+
+    var secondType =
+
+        firstType ===
+        'continuous'
+
             ? 'sequential'
+
             : 'continuous';
 
 
     /* ============================================================
-     * BUILD EXPERIMENTAL BLOCK
+     * CREATE THE TWO 240-TRIAL BLOCKS
      * ============================================================ */
 
-    function buildExperimentalBlock(
-        blockNum,
-        blockType
-    ) {
-
-        var blockSequence = [];
-
-        var wordPool =
-            makeWordPool(blockNum);
-
-        var conditionSlots =
-            makeConditionSlots();
-
-
-        /*
-         * Face pickers.
-         *
-         * Black has 50 files.
-         * White has 49 files.
-         */
-
-        var blackPicker =
-            makeFacePicker(
-                blackFaces
-            );
-
-        var whitePicker =
-            makeFacePicker(
-                whiteFaces
-            );
-
-
-        /*
-         * Match Safety words only to:
-         *   BS or WS
-         */
-
-        var safetyItems =
-            wordPool.filter(
-                function(item) {
-
-                    return (
-                        item.category ===
-                        'safety'
-                    );
-                }
-            );
-
-
-        var threatItems =
-            wordPool.filter(
-                function(item) {
-
-                    return (
-                        item.category ===
-                        'threat'
-                    );
-                }
-            );
-
-
-        var safetySlots =
-            conditionSlots.filter(
-                function(slot) {
-
-                    return (
-                        slot.wordCategory ===
-                        'safety'
-                    );
-                }
-            );
-
-
-        var threatSlots =
-            conditionSlots.filter(
-                function(slot) {
-
-                    return (
-                        slot.wordCategory ===
-                        'threat'
-                    );
-                }
-            );
-
-
-        safetyItems =
-            shuffle(
-                safetyItems
-            );
-
-        threatItems =
-            shuffle(
-                threatItems
-            );
-
-        safetySlots =
-            shuffle(
-                safetySlots
-            );
-
-        threatSlots =
-            shuffle(
-                threatSlots
-            );
-
-
-        var trials = [];
-
-        var i;
-
-
-        /* --------------------------------------------------------
-         * SAFETY TRIALS
-         * -------------------------------------------------------- */
-
-        for (
-            i = 0;
-            i < safetyItems.length;
-            i++
-        ) {
-
-            var safetySlot =
-                safetySlots[i];
-
-            var safetyFace =
-                safetySlot.faceColor ===
-                    'black'
-
-                    ? blackPicker()
-
-                    : whitePicker();
-
-
-            trials.push({
-
-                block:
-                    blockNum,
-
-                blockType:
-                    blockType,
-
-                trialType:
-                    blockType,
-
-                condition:
-                    safetySlot.condition,
-
-                faceColor:
-                    safetySlot.faceColor,
-
-                faceImage:
-                    safetyFace,
-
-                wordCategory:
-                    'safety',
-
-                word:
-                    safetyItems[i].word,
-
-                isExperimental:
-                    true
-            });
-        }
-
-
-        /* --------------------------------------------------------
-         * THREAT TRIALS
-         * -------------------------------------------------------- */
-
-        for (
-            i = 0;
-            i < threatItems.length;
-            i++
-        ) {
-
-            var threatSlot =
-                threatSlots[i];
-
-            var threatFace =
-                threatSlot.faceColor ===
-                    'black'
-
-                    ? blackPicker()
-
-                    : whitePicker();
-
-
-            trials.push({
-
-                block:
-                    blockNum,
-
-                blockType:
-                    blockType,
-
-                trialType:
-                    blockType,
-
-                condition:
-                    threatSlot.condition,
-
-                faceColor:
-                    threatSlot.faceColor,
-
-                faceImage:
-                    threatFace,
-
-                wordCategory:
-                    'threat',
-
-                word:
-                    threatItems[i].word,
-
-                isExperimental:
-                    true
-            });
-        }
-
-
-        /*
-         * Randomize the order of all 240 trials.
-         */
-
-        trials =
-            shuffle(
-                trials
-            );
-
-
-        /*
-         * Block instructions
-         */
-
-        var instructionSet =
-            'block' +
-            blockNum +
-            'Instructions';
-
-
-        addInstructionSet(
-            instructionSet,
-            blockNum,
-            blockType,
-            false
+    var firstTrials =
+        buildBlock(
+            1,
+            firstType,
+            true
         );
 
 
-        blockSequence.push({
-
-            inherit:
-                instructionSet
-
-        });
-
-
-        /*
-         * Experimental trials
-         */
-
-        trials.forEach(
-            function(spec) {
-
-                blockSequence.push(
-                    makeTrial(spec)
-                );
-            }
+    var secondTrials =
+        buildBlock(
+            2,
+            secondType,
+            true
         );
-
-
-        return blockSequence;
-    }
 
 
     /* ============================================================
-     * BLOCK 1 / BLOCK 2
+     * BLOCK 1 INSTRUCTIONS
      * ============================================================ */
 
-    var block1 =
-        buildExperimentalBlock(
-            1,
-            firstBlockType
-        );
+    sequence.push(
 
-    var block2 =
-        buildExperimentalBlock(
-            2,
-            secondBlockType
-        );
+        instructionTrial(
 
+            makeInstructionHTML(
+                1,
+                firstType,
+                false
+            )
 
-    block1.forEach(
-        function(trial) {
+        )
 
-            sequence.push(
-                trial
-            );
-        }
     );
 
 
-    block2.forEach(
-        function(trial) {
+    /* BLOCK 1 */
+
+    firstTrials.forEach(
+
+        function(spec) {
 
             sequence.push(
-                trial
+                makeTrial(spec)
             );
+
         }
+
+    );
+
+
+    /* ============================================================
+     * BLOCK 2 INSTRUCTIONS
+     * ============================================================ */
+
+    sequence.push(
+
+        instructionTrial(
+
+            makeInstructionHTML(
+                2,
+                secondType,
+                false
+            )
+
+        )
+
+    );
+
+
+    /* BLOCK 2 */
+
+    secondTrials.forEach(
+
+        function(spec) {
+
+            sequence.push(
+                makeTrial(spec)
+            );
+
+        }
+
     );
 
 
@@ -1885,137 +2435,50 @@ define(['pipAPI'], function(APIConstructor) {
      * END SCREEN
      * ============================================================ */
 
-    API.addTrialSets(
+    sequence.push(
 
-        'endInstructions',
+        instructionTrial(
 
-        {
+            '<div style="' +
 
-            data: {
+            'color:#FFFFFF;' +
 
-                block:
-                    3,
+            'font-family:Arial,sans-serif;' +
 
-                condition:
-                    'end',
+            'font-size:20px;' +
 
-                isExperimental:
-                    false
-            },
+            'text-align:center;' +
 
-            input: [
+            'margin:40px;">' +
 
-                {
-                    handle:
-                        'space',
 
-                    on:
-                        'space'
-                }
-            ],
+            '<p>You have completed the task.</p>' +
 
-            stimuli: [
 
-                {
+            '<p>Press <b>SPACE</b> to continue.</p>' +
 
-                    media: {
 
-                        html:
-                            '<div style="' +
-                            'color:#FFFFFF;' +
-                            'font-family:Arial,sans-serif;' +
-                            'font-size:20px;' +
-                            'text-align:center;' +
-                            'margin:40px;">' +
+            '</div>'
 
-                            '<p>' +
-                            'You have completed the task.' +
-                            '</p>' +
+        )
 
-                            '<p>' +
-                            'Press <b>SPACE</b> to continue.' +
-                            '</p>' +
-
-                            '</div>'
-                    },
-
-                    nolog:
-                        true
-                }
-            ],
-
-            interactions: [
-
-                {
-
-                    conditions: [
-
-                        {
-                            type:
-                                'begin'
-                        }
-                    ],
-
-                    actions: [
-
-                        {
-                            type:
-                                'showStim',
-
-                            handle:
-                                'All'
-                        }
-                    ]
-                },
-
-                {
-
-                    conditions: [
-
-                        {
-                            type:
-                                'inputEquals',
-
-                            value:
-                                'space'
-                        }
-                    ],
-
-                    actions: [
-
-                        {
-                            type:
-                                'hideStim',
-
-                            handle:
-                                'All'
-                        },
-
-                        {
-                            type:
-                                'endTrial'
-                        }
-                    ]
-                }
-            ]
-        }
     );
 
 
-    sequence.push({
+    /* ============================================================
+     * ADD SEQUENCE
+     * ============================================================ */
 
-        inherit:
-            'endInstructions'
-
-    });
+    API.addSequence(
+        sequence
+    );
 
 
     /* ============================================================
-     * RUN TASK
+     * IMPORTANT:
+     * RETURN MINNO SCRIPT
      * ============================================================ */
 
-    API.addSequence(sequence);
-
     return API.script;
-});
 
+});
