@@ -22,17 +22,12 @@
  * WS = 60 White face + Safety word
  * WT = 60 White face + Threat word
  *
- * EACH TRIAL:
- *
- * One face-only BMP is selected.
- * The EXACT SAME face is displayed four times.
- *
  * CONTINUOUS:
- * Four faces + word for 1000 ms
+ * Four identical faces + word for 1000 ms
  * Then ampmask.jpg until response.
  *
  * SEQUENTIAL:
- * Four faces for 200 ms
+ * Four identical faces for 200 ms
  * Then word for 1000 ms
  * Then ampmask.jpg until response.
  *
@@ -40,15 +35,18 @@
  *
  * RESPONSE KEYS:
  *
- * E = THREAT
- * I = SAFETY
+ * E = SAFETY
+ * I = THREAT
  *
- * IMAGE FILES:
- * black1.bmp ... black50.bmp
- * white1.bmp ... white49.bmp
+ * COMPACT OUTPUT:
  *
- * MASK:
- * ampmask.jpg
+ * b  = block
+ * t  = trial type (C/S)
+ * c  = condition (BS/BT/WS/WT)
+ * f  = face (b17 / w23)
+ * w  = word
+ * r  = response (S/T)
+ * rt = reaction time
  *
  * ================================================================
  */
@@ -69,36 +67,57 @@ define(['pipAPI'], function(APIConstructor) {
 
         fixationDuration: 1000,
 
-        /* Sequential face duration */
+        /*
+         * Sequential face duration.
+         */
         sequentialImageDuration: 200,
 
-        /* Final word/stimulus duration */
+        /*
+         * Final stimulus duration.
+         *
+         * Continuous:
+         *   faces + word = 1000 ms
+         *
+         * Sequential:
+         *   word = 1000 ms
+         */
         finalStimulusDuration: 1000,
 
-        /* Time between response and next trial */
+        /*
+         * Time between response and next trial.
+         */
         ITI: 750,
 
         /*
          * RESPONSE MAPPING
          *
-         * E = THREAT
-         * I = SAFETY
+         * E = SAFETY
+         * I = THREAT
          */
-        threatKey: 'e',
-        safetyKey: 'i',
+        safetyKey: 'e',
+        threatKey: 'i',
 
         base_url: {
+
             image:
                 'https://rjrydell.github.io/ddm1/images'
+
         },
 
         canvas: {
+
             maxWidth: 850,
+
             proportions: 0.7,
+
             background: '#FFFFFF',
+
             borderWidth: 5,
+
             canvasBackground: '#000000',
+
             borderColor: 'lightblue'
+
         }
 
     };
@@ -154,12 +173,20 @@ define(['pipAPI'], function(APIConstructor) {
 
     /* ============================================================
      * FACE POOLS
+     *
+     * black1.bmp ... black50.bmp
+     * white1.bmp ... white49.bmp
      * ============================================================ */
 
-    function makePool(prefix, count) {
+    function makePool(
+        prefix,
+        count
+    ) {
 
         var pool = [];
+
         var i;
+
 
         for (
             i = 1;
@@ -173,15 +200,24 @@ define(['pipAPI'], function(APIConstructor) {
 
         }
 
+
         return pool;
+
     }
 
 
     var BLACK_FACES =
-        makePool('black', 50);
+        makePool(
+            'black',
+            50
+        );
+
 
     var WHITE_FACES =
-        makePool('white', 49);
+        makePool(
+            'white',
+            49
+        );
 
 
     /* ============================================================
@@ -203,16 +239,6 @@ define(['pipAPI'], function(APIConstructor) {
     /*
      * ============================================================
      * QUALTRICS / MINNOJS END HOOK
-     *
-     * This is important.
-     *
-     * The Qualtrics wrapper defines:
-     *
-     *     minnoJS.onEnd = function() { ... }
-     *
-     * This tells MinnoJS to call that function when this task
-     * finishes, allowing Qualtrics to advance to the next survey
-     * question.
      * ============================================================
      */
 
@@ -223,7 +249,17 @@ define(['pipAPI'], function(APIConstructor) {
 
 
     /* ============================================================
-     * LOGGER
+     * COMPACT LOGGER
+     *
+     * OUTPUT COLUMNS:
+     *
+     * b  = block
+     * t  = trial type
+     * c  = condition
+     * f  = face
+     * w  = word
+     * r  = response
+     * rt = reaction time
      * ============================================================ */
 
     API.addSettings(
@@ -243,7 +279,10 @@ define(['pipAPI'], function(APIConstructor) {
 
                 }
 
-                ctx.logs.push(log);
+
+                ctx.logs.push(
+                    log
+                );
 
             },
 
@@ -254,7 +293,10 @@ define(['pipAPI'], function(APIConstructor) {
                 ctx
             ) {
 
-                return ctx.logs || [];
+                return (
+                    ctx.logs ||
+                    []
+                );
 
             },
 
@@ -264,26 +306,31 @@ define(['pipAPI'], function(APIConstructor) {
                 logs
             ) {
 
+                /*
+                 * Compact header.
+                 */
+
                 var rows = [[
 
-                    'block',
-                    'block_type',
-                    'trial',
-                    'trial_type',
-                    'condition',
-                    'face_color',
-                    'face_image',
-                    'word_category',
-                    'word',
-                    'response',
-                    'correct',
+                    'b',
+                    't',
+                    'c',
+                    'f',
+                    'w',
+                    'r',
                     'rt'
 
                 ]];
 
+
                 logs.forEach(
 
                     function(log) {
+
+                        /*
+                         * Ignore instructions and other
+                         * non-experimental trials.
+                         */
 
                         if (
                             !log ||
@@ -296,29 +343,101 @@ define(['pipAPI'], function(APIConstructor) {
                         }
 
 
+                        /*
+                         * Convert:
+                         *
+                         * continuous -> C
+                         * sequential -> S
+                         */
+
+                        var trialTypeCode =
+
+                            log.data.trialType ===
+                            'continuous'
+
+                                ? 'C'
+
+                                : 'S';
+
+
+                        /*
+                         * Convert:
+                         *
+                         * black17.bmp -> b17
+                         * white23.bmp -> w23
+                         */
+
+                        var faceCode =
+                            '';
+
+
+                        if (
+                            log.data.faceImage
+                        ) {
+
+                            faceCode =
+                                log.data.faceImage
+                                    .replace(
+                                        '.bmp',
+                                        ''
+                                    )
+                                    .replace(
+                                        'black',
+                                        'b'
+                                    )
+                                    .replace(
+                                        'white',
+                                        'w'
+                                    );
+
+                        }
+
+
+                        /*
+                         * Convert:
+                         *
+                         * Safety -> S
+                         * Threat -> T
+                         */
+
+                        var responseCode =
+                            '';
+
+
+                        if (
+                            log.data.response ===
+                            'Safety'
+                        ) {
+
+                            responseCode =
+                                'S';
+
+                        }
+
+                        else if (
+                            log.data.response ===
+                            'Threat'
+                        ) {
+
+                            responseCode =
+                                'T';
+
+                        }
+
+
                         rows.push([
 
                             log.data.block,
 
-                            log.data.blockType,
-
-                            log.trial_id,
-
-                            log.data.trialType,
+                            trialTypeCode,
 
                             log.data.condition,
 
-                            log.data.faceColor,
-
-                            log.data.faceImage,
-
-                            log.data.wordCategory,
+                            faceCode,
 
                             log.data.word,
 
-                            log.data.response,
-
-                            log.data.correct,
+                            responseCode,
 
                             log.latency
 
@@ -329,6 +448,10 @@ define(['pipAPI'], function(APIConstructor) {
                 );
 
 
+                /*
+                 * Convert to compact CSV.
+                 */
+
                 return rows.map(
 
                     function(row) {
@@ -338,26 +461,45 @@ define(['pipAPI'], function(APIConstructor) {
                             function(value) {
 
                                 value =
-                                    value === undefined ||
-                                    value === null
-                                        ? ''
-                                        : String(value);
 
+                                    value ===
+                                        undefined ||
+
+                                    value ===
+                                        null
+
+                                        ? ''
+
+                                        : String(
+                                            value
+                                        );
+
+
+                                /*
+                                 * Quote only when necessary.
+                                 */
 
                                 if (
-                                    /[,"\n]/.test(value)
+                                    /[,"\n]/.test(
+                                        value
+                                    )
                                 ) {
 
                                     return (
+
                                         '"' +
+
                                         value.replace(
                                             /"/g,
                                             '""'
                                         ) +
+
                                         '"'
+
                                     );
 
                                 }
+
 
                                 return value;
 
@@ -377,10 +519,17 @@ define(['pipAPI'], function(APIConstructor) {
                 serialized
             ) {
 
+                /*
+                 * Send compact CSV to Qualtrics.
+                 */
+
                 if (
+
                     window.minnoJS &&
+
                     typeof window.minnoJS.logger ===
                         'function'
+
                 ) {
 
                     window.minnoJS.logger(
@@ -411,21 +560,33 @@ define(['pipAPI'], function(APIConstructor) {
 
 
         for (
-            i = a.length - 1;
+
+            i =
+                a.length - 1;
+
             i > 0;
+
             i--
+
         ) {
 
-            j = Math.floor(
-                Math.random() * (i + 1)
-            );
+            j =
+                Math.floor(
+                    Math.random() *
+                    (i + 1)
+                );
 
 
-            temp = a[i];
+            temp =
+                a[i];
 
-            a[i] = a[j];
 
-            a[j] = temp;
+            a[i] =
+                a[j];
+
+
+            a[j] =
+                temp;
 
         }
 
@@ -437,8 +598,6 @@ define(['pipAPI'], function(APIConstructor) {
 
     /* ============================================================
      * BALANCED FACE PICKER
-     *
-     * Each face is used once before reshuffling.
      * ============================================================ */
 
     function makePicker(pool) {
@@ -452,8 +611,10 @@ define(['pipAPI'], function(APIConstructor) {
 
         return function() {
 
+
             if (
-                position >= bag.length
+                position >=
+                bag.length
             ) {
 
                 bag =
@@ -480,7 +641,7 @@ define(['pipAPI'], function(APIConstructor) {
      * 120 Safety + 120 Threat per block.
      *
      * Across both blocks:
-     * every individual word appears exactly 15 times.
+     * every word appears exactly 15 times.
      * ============================================================ */
 
     function makeWordPool(
@@ -488,14 +649,20 @@ define(['pipAPI'], function(APIConstructor) {
     ) {
 
         var firstReps =
+
             blockNum === 1
+
                 ? 8
+
                 : 7;
 
 
         var secondReps =
+
             blockNum === 1
+
                 ? 7
+
                 : 8;
 
 
@@ -506,24 +673,37 @@ define(['pipAPI'], function(APIConstructor) {
         var repetitions;
 
 
-        /* SAFETY WORDS */
+        /* SAFETY */
 
         for (
+
             i = 0;
-            i < SAFETY_WORDS.length;
+
+            i <
+            SAFETY_WORDS.length;
+
             i++
+
         ) {
 
             repetitions =
+
                 i < 8
+
                     ? firstReps
+
                     : secondReps;
 
 
             for (
+
                 r = 0;
-                r < repetitions;
+
+                r <
+                repetitions;
+
                 r++
+
             ) {
 
                 pool.push({
@@ -541,24 +721,37 @@ define(['pipAPI'], function(APIConstructor) {
         }
 
 
-        /* THREAT WORDS */
+        /* THREAT */
 
         for (
+
             i = 0;
-            i < THREAT_WORDS.length;
+
+            i <
+            THREAT_WORDS.length;
+
             i++
+
         ) {
 
             repetitions =
+
                 i < 8
+
                     ? firstReps
+
                     : secondReps;
 
 
             for (
+
                 r = 0;
-                r < repetitions;
+
+                r <
+                repetitions;
+
                 r++
+
             ) {
 
                 pool.push({
@@ -602,9 +795,13 @@ define(['pipAPI'], function(APIConstructor) {
 
 
         for (
+
             i = 0;
+
             i < 60;
+
             i++
+
         ) {
 
             slots.push({
@@ -673,17 +870,17 @@ define(['pipAPI'], function(APIConstructor) {
 
 
     /* ============================================================
-     * KEY LABELS
+     * RESPONSE LABELS
      *
-     * E = THREAT
-     * I = SAFETY
+     * E = SAFETY
+     * I = THREAT
      * ============================================================ */
 
     function makeKeyLayout() {
 
         return [
 
-            /* LEFT = E = THREAT */
+            /* E = SAFETY */
 
             {
 
@@ -700,7 +897,7 @@ define(['pipAPI'], function(APIConstructor) {
                 media: {
 
                     word:
-                        'E = THREAT'
+                        'E = SAFETY'
 
                 },
 
@@ -726,7 +923,7 @@ define(['pipAPI'], function(APIConstructor) {
             },
 
 
-            /* RIGHT = I = SAFETY */
+            /* I = THREAT */
 
             {
 
@@ -743,7 +940,7 @@ define(['pipAPI'], function(APIConstructor) {
                 media: {
 
                     word:
-                        'I = SAFETY'
+                        'I = THREAT'
 
                 },
 
@@ -791,6 +988,7 @@ define(['pipAPI'], function(APIConstructor) {
         ) {
 
             timingText =
+
                 'The four faces and the word will appear ' +
                 '<b>at the same time</b>.';
 
@@ -799,6 +997,7 @@ define(['pipAPI'], function(APIConstructor) {
         else {
 
             timingText =
+
                 'The four faces will appear briefly and then ' +
                 'disappear. The word will then appear.';
 
@@ -820,6 +1019,8 @@ define(['pipAPI'], function(APIConstructor) {
             'text-align:center;">' +
 
 
+            /* RESPONSE OPTIONS */
+
             '<div style="' +
 
             'width:100%;' +
@@ -836,12 +1037,14 @@ define(['pipAPI'], function(APIConstructor) {
 
             'margin-bottom:70px;">' +
 
-            '<span>E = THREAT</span>' +
+            '<span>E = SAFETY</span>' +
 
-            '<span>I = SAFETY</span>' +
+            '<span>I = THREAT</span>' +
 
             '</div>' +
 
+
+            /* ROUND */
 
             '<p style="' +
 
@@ -857,6 +1060,8 @@ define(['pipAPI'], function(APIConstructor) {
 
             '</p>' +
 
+
+            /* INSTRUCTION */
 
             '<p style="' +
 
@@ -875,6 +1080,8 @@ define(['pipAPI'], function(APIConstructor) {
             '</p>' +
 
 
+            /* TIMING */
+
             '<p style="' +
 
             'font-size:20px;' +
@@ -888,6 +1095,8 @@ define(['pipAPI'], function(APIConstructor) {
             '</p>' +
 
 
+            /* SPEED */
+
             '<p style="' +
 
             'font-size:18px;' +
@@ -898,6 +1107,8 @@ define(['pipAPI'], function(APIConstructor) {
 
             '</p>' +
 
+
+            /* SPACE */
 
             '<p style="' +
 
@@ -967,6 +1178,7 @@ define(['pipAPI'], function(APIConstructor) {
                     media: {
 
                         html:
+
                             makeBlockInstructionHTML(
                                 blockNum,
                                 blockType
@@ -1046,6 +1258,7 @@ define(['pipAPI'], function(APIConstructor) {
 
                         },
 
+
                         {
 
                             type:
@@ -1114,6 +1327,9 @@ define(['pipAPI'], function(APIConstructor) {
      *
      * Faces + word for 1000 ms.
      * Then mask until response.
+     *
+     * E = SAFETY
+     * I = THREAT
      * ============================================================ */
 
     function continuousInteractions() {
@@ -1166,7 +1382,7 @@ define(['pipAPI'], function(APIConstructor) {
             },
 
 
-            /* SHOW FACES + WORD */
+            /* SHOW FOUR FACES + WORD */
 
             {
 
@@ -1252,9 +1468,7 @@ define(['pipAPI'], function(APIConstructor) {
                     },
 
 
-                    /*
-                     * RT STARTS AT WORD ONSET.
-                     */
+                    /* RT STARTS */
 
                     {
 
@@ -1264,30 +1478,7 @@ define(['pipAPI'], function(APIConstructor) {
                     },
 
 
-                    /* E = THREAT */
-
-                    {
-
-                        type:
-                            'setInput',
-
-                        input: {
-
-                            handle:
-                                'Threat',
-
-                            on:
-                                'keypressed',
-
-                            key:
-                                SETTINGS.threatKey
-
-                        }
-
-                    },
-
-
-                    /* I = SAFETY */
+                    /* E = SAFETY */
 
                     {
 
@@ -1310,9 +1501,30 @@ define(['pipAPI'], function(APIConstructor) {
                     },
 
 
-                    /*
-                     * 1000 MS -> MASK
-                     */
+                    /* I = THREAT */
+
+                    {
+
+                        type:
+                            'setInput',
+
+                        input: {
+
+                            handle:
+                                'Threat',
+
+                            on:
+                                'keypressed',
+
+                            key:
+                                SETTINGS.threatKey
+
+                        }
+
+                    },
+
+
+                    /* 1000 MS -> MASK */
 
                     {
 
@@ -1422,104 +1634,7 @@ define(['pipAPI'], function(APIConstructor) {
             },
 
 
-            /* E = THREAT */
-
-            {
-
-                conditions: [
-
-                    {
-
-                        type:
-                            'inputEquals',
-
-                        value:
-                            'Threat'
-
-                    }
-
-                ],
-
-                actions: [
-
-                    {
-
-                        type:
-                            'setTrialAttr',
-
-                        setter:
-                            function(td) {
-
-                                td.response =
-                                    'Threat';
-
-                                td.correct =
-                                    td.wordCategory ===
-                                    'threat'
-                                        ? 1
-                                        : 0;
-
-                            }
-
-                    },
-
-
-                    {
-
-                        type:
-                            'hideStim',
-
-                        handle:
-                            'All'
-
-                    },
-
-
-                    {
-
-                        type:
-                            'removeInput',
-
-                        handle:
-                            'All'
-
-                    },
-
-
-                    {
-
-                        type:
-                            'log'
-
-                    },
-
-
-                    {
-
-                        type:
-                            'setInput',
-
-                        input: {
-
-                            handle:
-                                'endTrial',
-
-                            on:
-                                'timeout',
-
-                            duration:
-                                '<%=trialData.ITI%>'
-
-                        }
-
-                    }
-
-                ]
-
-            },
-
-
-            /* I = SAFETY */
+            /* E = SAFETY */
 
             {
 
@@ -1550,11 +1665,96 @@ define(['pipAPI'], function(APIConstructor) {
                                 td.response =
                                     'Safety';
 
-                                td.correct =
-                                    td.wordCategory ===
-                                    'safety'
-                                        ? 1
-                                        : 0;
+                            }
+
+                    },
+
+
+                    {
+
+                        type:
+                            'hideStim',
+
+                        handle:
+                            'All'
+
+                    },
+
+
+                    {
+
+                        type:
+                            'removeInput',
+
+                        handle:
+                            'All'
+
+                    },
+
+
+                    {
+
+                        type:
+                            'log'
+
+                    },
+
+
+                    {
+
+                        type:
+                            'setInput',
+
+                        input: {
+
+                            handle:
+                                'endTrial',
+
+                            on:
+                                'timeout',
+
+                            duration:
+                                '<%=trialData.ITI%>'
+
+                        }
+
+                    }
+
+                ]
+
+            },
+
+
+            /* I = THREAT */
+
+            {
+
+                conditions: [
+
+                    {
+
+                        type:
+                            'inputEquals',
+
+                        value:
+                            'Threat'
+
+                    }
+
+                ],
+
+                actions: [
+
+                    {
+
+                        type:
+                            'setTrialAttr',
+
+                        setter:
+                            function(td) {
+
+                                td.response =
+                                    'Threat';
 
                             }
 
@@ -1616,7 +1816,7 @@ define(['pipAPI'], function(APIConstructor) {
             },
 
 
-            /* END TRIAL */
+            /* END */
 
             {
 
@@ -1658,6 +1858,9 @@ define(['pipAPI'], function(APIConstructor) {
      * Faces 200 ms.
      * Word 1000 ms.
      * Then mask until response.
+     *
+     * E = SAFETY
+     * I = THREAT
      * ============================================================ */
 
     function sequentialInteractions() {
@@ -1785,9 +1988,7 @@ define(['pipAPI'], function(APIConstructor) {
                     },
 
 
-                    /*
-                     * FACES FOR 200 MS
-                     */
+                    /* 200 MS */
 
                     {
 
@@ -1882,9 +2083,7 @@ define(['pipAPI'], function(APIConstructor) {
                     },
 
 
-                    /*
-                     * RT STARTS AT WORD ONSET
-                     */
+                    /* RT STARTS AT WORD */
 
                     {
 
@@ -1894,30 +2093,7 @@ define(['pipAPI'], function(APIConstructor) {
                     },
 
 
-                    /* E = THREAT */
-
-                    {
-
-                        type:
-                            'setInput',
-
-                        input: {
-
-                            handle:
-                                'Threat',
-
-                            on:
-                                'keypressed',
-
-                            key:
-                                SETTINGS.threatKey
-
-                        }
-
-                    },
-
-
-                    /* I = SAFETY */
+                    /* E = SAFETY */
 
                     {
 
@@ -1940,9 +2116,30 @@ define(['pipAPI'], function(APIConstructor) {
                     },
 
 
-                    /*
-                     * 1000 MS -> MASK
-                     */
+                    /* I = THREAT */
+
+                    {
+
+                        type:
+                            'setInput',
+
+                        input: {
+
+                            handle:
+                                'Threat',
+
+                            on:
+                                'keypressed',
+
+                            key:
+                                SETTINGS.threatKey
+
+                        }
+
+                    },
+
+
+                    /* 1000 MS -> MASK */
 
                     {
 
@@ -2008,104 +2205,7 @@ define(['pipAPI'], function(APIConstructor) {
             },
 
 
-            /* E = THREAT */
-
-            {
-
-                conditions: [
-
-                    {
-
-                        type:
-                            'inputEquals',
-
-                        value:
-                            'Threat'
-
-                    }
-
-                ],
-
-                actions: [
-
-                    {
-
-                        type:
-                            'setTrialAttr',
-
-                        setter:
-                            function(td) {
-
-                                td.response =
-                                    'Threat';
-
-                                td.correct =
-                                    td.wordCategory ===
-                                    'threat'
-                                        ? 1
-                                        : 0;
-
-                            }
-
-                    },
-
-
-                    {
-
-                        type:
-                            'hideStim',
-
-                        handle:
-                            'All'
-
-                    },
-
-
-                    {
-
-                        type:
-                            'removeInput',
-
-                        handle:
-                            'All'
-
-                    },
-
-
-                    {
-
-                        type:
-                            'log'
-
-                    },
-
-
-                    {
-
-                        type:
-                            'setInput',
-
-                        input: {
-
-                            handle:
-                                'endTrial',
-
-                            on:
-                                'timeout',
-
-                            duration:
-                                '<%=trialData.ITI%>'
-
-                        }
-
-                    }
-
-                ]
-
-            },
-
-
-            /* I = SAFETY */
+            /* E = SAFETY */
 
             {
 
@@ -2136,11 +2236,96 @@ define(['pipAPI'], function(APIConstructor) {
                                 td.response =
                                     'Safety';
 
-                                td.correct =
-                                    td.wordCategory ===
-                                    'safety'
-                                        ? 1
-                                        : 0;
+                            }
+
+                    },
+
+
+                    {
+
+                        type:
+                            'hideStim',
+
+                        handle:
+                            'All'
+
+                    },
+
+
+                    {
+
+                        type:
+                            'removeInput',
+
+                        handle:
+                            'All'
+
+                    },
+
+
+                    {
+
+                        type:
+                            'log'
+
+                    },
+
+
+                    {
+
+                        type:
+                            'setInput',
+
+                        input: {
+
+                            handle:
+                                'endTrial',
+
+                            on:
+                                'timeout',
+
+                            duration:
+                                '<%=trialData.ITI%>'
+
+                        }
+
+                    }
+
+                ]
+
+            },
+
+
+            /* I = THREAT */
+
+            {
+
+                conditions: [
+
+                    {
+
+                        type:
+                            'inputEquals',
+
+                        value:
+                            'Threat'
+
+                    }
+
+                ],
+
+                actions: [
+
+                    {
+
+                        type:
+                            'setTrialAttr',
+
+                        setter:
+                            function(td) {
+
+                                td.response =
+                                    'Threat';
 
                             }
 
@@ -2202,7 +2387,7 @@ define(['pipAPI'], function(APIConstructor) {
             },
 
 
-            /* END TRIAL */
+            /* END */
 
             {
 
@@ -2242,9 +2427,7 @@ define(['pipAPI'], function(APIConstructor) {
      * MAKE ONE EXPERIMENTAL TRIAL
      * ============================================================ */
 
-    function makeTrial(
-        spec
-    ) {
+    function makeTrial(spec) {
 
         return {
 
@@ -2289,16 +2472,13 @@ define(['pipAPI'], function(APIConstructor) {
                 response:
                     '',
 
-                correct:
-                    '',
-
                 isExperimental:
                     spec.isExperimental
 
             },
 
 
-            /* RESPONSE LABELS AT TOP */
+            /* RESPONSE LABELS */
 
             layout:
                 makeKeyLayout(),
@@ -2630,7 +2810,7 @@ define(['pipAPI'], function(APIConstructor) {
 
 
                 /* =================================================
-                 * MASK
+                 * PATTERN MASK
                  *
                  * 30% x 30%
                  * Centered.
@@ -2777,8 +2957,10 @@ define(['pipAPI'], function(APIConstructor) {
                     function(item) {
 
                         return (
+
                             item.category ===
                             'safety'
+
                         );
 
                     }
@@ -2799,8 +2981,10 @@ define(['pipAPI'], function(APIConstructor) {
                     function(item) {
 
                         return (
+
                             item.category ===
                             'threat'
+
                         );
 
                     }
@@ -2821,8 +3005,10 @@ define(['pipAPI'], function(APIConstructor) {
                     function(slot) {
 
                         return (
+
                             slot.wordCategory ===
                             'safety'
+
                         );
 
                     }
@@ -2843,8 +3029,10 @@ define(['pipAPI'], function(APIConstructor) {
                     function(slot) {
 
                         return (
+
                             slot.wordCategory ===
                             'threat'
+
                         );
 
                     }
@@ -2878,23 +3066,14 @@ define(['pipAPI'], function(APIConstructor) {
                 safetySlots[i];
 
 
-            var safetyFace;
+            var safetyFace =
 
-
-            if (
                 safetySlot.faceColor ===
                 'black'
-            ) {
 
-                safetyFace =
-                    blackPicker();
+                    ? blackPicker()
 
-            } else {
-
-                safetyFace =
-                    whitePicker();
-
-            }
+                    : whitePicker();
 
 
             trials.push({
@@ -2950,23 +3129,14 @@ define(['pipAPI'], function(APIConstructor) {
                 threatSlots[i];
 
 
-            var threatFace;
+            var threatFace =
 
-
-            if (
                 threatSlot.faceColor ===
                 'black'
-            ) {
 
-                threatFace =
-                    blackPicker();
+                    ? blackPicker()
 
-            } else {
-
-                threatFace =
-                    whitePicker();
-
-            }
+                    : whitePicker();
 
 
             trials.push({
@@ -3003,7 +3173,7 @@ define(['pipAPI'], function(APIConstructor) {
         }
 
 
-        /* RANDOMIZE ALL 240 TRIALS */
+        /* RANDOMIZE ALL 240 */
 
         return shuffle(
             trials
@@ -3034,7 +3204,9 @@ define(['pipAPI'], function(APIConstructor) {
         firstBlockType =
             'continuous';
 
-    } else {
+    }
+
+    else {
 
         firstBlockType =
             'sequential';
@@ -3057,6 +3229,7 @@ define(['pipAPI'], function(APIConstructor) {
      * ============================================================ */
 
     var block1Trials =
+
         buildBlock(
             1,
             firstBlockType
@@ -3064,6 +3237,7 @@ define(['pipAPI'], function(APIConstructor) {
 
 
     var block2Trials =
+
         buildBlock(
             2,
             secondBlockType
